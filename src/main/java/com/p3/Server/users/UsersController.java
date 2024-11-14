@@ -16,20 +16,36 @@ public class UsersController {
         this.usersService = usersService;
     }
 
+    /*
+    * GET
+    */
+
     @GetMapping        // @getmapping for endpoint of server - get denotes client request to server
-    public List<Users> getUserClasses() {
-        return usersService.getUserClasses();
+    public List<Users> getUsers() {
+        return usersService.getUsers();
     }
+
+    /*
+     * POST
+     */
 
     @PostMapping
     public void registerNewUser(@RequestBody Users user) {
         usersService.addNewUser(user);
     }
 
+    /*
+     * DELETE
+     */
+
     @DeleteMapping(path = "{user_id}")  // path will be api/user/"user_id"
     public void deleteUser(@PathVariable("user_id") int user_id) {
         usersService.deleteUser(user_id);
     }
+
+    /*
+     * PUT
+     */
 
     @PutMapping(path = "{user_id}")
     public void updateUser(@PathVariable("user_id") int user_id,

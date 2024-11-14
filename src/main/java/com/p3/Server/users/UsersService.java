@@ -2,7 +2,6 @@ package com.p3.Server.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +17,7 @@ public class UsersService {
         this.usersRepository = usersRepository;
     }
 
-    public List<Users> getUserClasses() {
+    public List<Users> getUsers() {
         return usersRepository.findAll();   // Return every user in database <Maybe password should not be included?>
     }
 

@@ -8,6 +8,7 @@ create table users (
     user_id int primary key auto_increment,
     username varchar(50) not null,
     full_name varchar(50) not null,
+    clocked_in boolean not null,
     on_break boolean not null,
     logged_in boolean not null,
     password varchar(255) default null, 
@@ -45,10 +46,10 @@ create table notes (
 );
 
 -- Til at populate user table
-insert into users (username, full_name, password, role, on_break, logged_in) values
-('brian', 'Brian Donatello', '$2y$10$T9rVlb8uDPfN8waXfdiBveFr9f8RI1YgpEvhDTnvHzQchD0Vngq1.', 'manager', true, false), -- Example hashed password for 'admin'
-('dorte', 'Dorte Johannes', null, 'employee', false, false),
-('emilie', 'Emilie Nutella', null, 'employee', false, true);
+insert into users (username, full_name, password, role, clocked_in, on_break, logged_in) values
+('brian', 'Brian Donatello', '$2y$10$T9rVlb8uDPfN8waXfdiBveFr9f8RI1YgpEvhDTnvHzQchD0Vngq1.', 'manager', true, true, false), -- Example hashed password for 'admin'
+('dorte', 'Dorte Johannes', null, 'employee', true, false, false),
+('emilie', 'Emilie Nutella', null, 'employee', true, false, true);
  
  
  -- Test til flere breaks på en dag

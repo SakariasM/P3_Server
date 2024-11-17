@@ -1,56 +1,59 @@
-DROP DATABASE IF EXISTS `database`;
-CREATE DATABASE `database`;
-USE `database`;
+-- De to drop/create for neden er hvis man vil starte forfra.
+drop database if exists `database`;
+create database `database`;
+use `database`;
 
-CREATE TABLE users (
-    user_id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL,
-    full_name varchar(50) NOT NULL,
-    on_break boolean,
-    clocked_in boolean,
-    logged_in boolean,
-    password VARCHAR(255) DEFAULT NULL, 
-    role ENUM('employee', 'manager') NOT NULL,
-    CHECK (role = 'employee' OR (role = 'manager' AND password IS NOT NULL))
-    
+-- Disse er blot tables jeg opretter
+create table user (
+    user_id int primary key auto_increment,
+    username varchar(50) not null,
+    full_name varchar(50) not null,
+    clocked_in boolean not null,
+    on_break boolean not null,
+    logged_in boolean not null,
+    password varchar(255) default null, 
+    role enum('employee', 'manager') not null,
+    check (role = 'employee' OR (role = 'manager' and password is not null))
 );
 
-CREATE TABLE timelog (
-    log_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    shift_date DATE NOT NULL,
-    event_time DATETIME NOT NULL,
-    event_type ENUM('check_in', 'check_out', 'break_start', 'break_end') NOT NULL,
-    edited_time DATETIME,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+create table timelog (
+    log_id int primary key auto_increment,
+    user_id int not null,
+    shift_date date not null,
+    event_time datetime not null,
+    event_type enum('check_in', 'check_out', 'break_start', 'break_end') not null,
+    edited_time datetime,
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE timelog_edit (
-    edit_id INT PRIMARY KEY AUTO_INCREMENT,
-    log_id INT NOT NULL,
-    edit_time DATETIME NOT NULL,
-    new_event_time DATETIME NOT NULL,
-    edit_type ENUM('check_in_edit', 'check_out_edit', 'break_start_edit', 'break_end_edit') NOT NULL,
-    FOREIGN KEY (log_id) REFERENCES timelog(log_id)
+create table weekly_timelog (
+    weekly_id int primary key auto_increment,
+    user_id int not null,
+    week_start date not null,
+    total_hours_worked time not null,
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE weekly_timelog (
-    weekly_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    week_start DATE NOT NULL,
-    total_hours_worked TIME NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+create table note (
+	note_id int primary key auto_increment,
+    note_date date not null,
+    writer_id int not null,
+    recipient_id int not null,
+    full_name varchar(50),
+    Written_note varchar(255),
+    FOREIGN KEY (writer_id) REFERENCES user(user_id),
+    FOREIGN KEY (recipient_id) REFERENCES user(user_id)
 );
 
--- Insert users with hashed passwords
-INSERT INTO users (username, full_name, password, role) VALUES
-('brian', 'Brian Donatello', '$2y$10$T9rVlb8uDPfN8waXfdiBveFr9f8RI1YgpEvhDTnvHzQchD0Vngq1.', 'manager'), -- Example hashed password for 'admin'
-('dorte', 'Dorte Johannes', NULL, 'employee'),
-('emilie', 'Emilie Nutella', NULL, 'employee');
+-- Til at populate user table
+insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
+('brian', 'Brian Donatello', '$2y$10$T9rVlb8uDPfN8waXfdiBveFr9f8RI1YgpEvhDTnvHzQchD0Vngq1.', 'manager', true, true, false), -- Example hashed password for 'admin'
+('dorte', 'Dorte Johannes', null, 'employee', true, false, false),
+('emilie', 'Emilie Nutella', null, 'employee', true, false, true);
  
  
- -- test til flere breaks på en dag
-INSERT INTO timelog (user_id, shift_date, event_time, event_type) VALUES
+ -- Test til flere breaks på en dag
+insert into timelog (user_id, shift_date, event_time, event_type) values
 -- Day 1
 (1, '2024-11-01', '2024-11-01 08:00:00', 'check_in'),
 (1, '2024-11-01', '2024-11-01 12:00:00', 'break_start'),
@@ -64,66 +67,98 @@ INSERT INTO timelog (user_id, shift_date, event_time, event_type) VALUES
 (1, '2024-11-02', '2024-11-02 12:30:00', 'break_end'),
 (1, '2024-11-02', '2024-11-02 14:00:00', 'check_out');
 
--- test til samme user men forskellige uger
-INSERT INTO timelog (user_id, shift_date, event_time, event_type) VALUES
+-- Test til samme user men forskellige uger
+insert into timelog (user_id, shift_date, event_time, event_type) values
 -- Day 1
 (2, '2024-11-01', '2024-11-01 09:00:00', 'check_in'),
 (2, '2024-11-01', '2024-11-01 12:00:00', 'break_start'),
 (2, '2024-11-01', '2024-11-01 12:30:00', 'break_end'),
 (2, '2024-11-01', '2024-11-01 14:00:00', 'check_out'),
 -- Day 2
-(2, '2024-12-02', '2024-11-02 09:00:00', 'check_in'),
-(2, '2024-12-02', '2024-11-02 12:00:00', 'break_start'),
-(2, '2024-12-02', '2024-11-02 12:30:00', 'break_end'),
-(2, '2024-12-02', '2024-11-02 14:00:00', 'check_out');
+(2, '2024-12-02', '2024-12-02 09:00:00', 'check_in'),
+(2, '2024-12-02', '2024-12-02 12:00:00', 'break_start'),
+(2, '2024-12-02', '2024-12-02 12:30:00', 'break_end'),
+(2, '2024-12-02', '2024-12-02 14:00:00', 'check_out');
 
--- standard stikprøve test
-INSERT INTO timelog (user_id, shift_date, event_time, event_type) VALUES
+-- Edited timestamps test og det virker!
+insert into timelog (user_id, shift_date, event_time, event_type, edited_time) values
 -- Day 1
-(3, '2024-11-01', '2024-11-01 08:00:00', 'check_in'),
-(3, '2024-11-01', '2024-11-01 12:00:00', 'break_start'),
-(3, '2024-11-01', '2024-11-01 12:30:00', 'break_end'),
-(3, '2024-11-01', '2024-11-01 17:00:00', 'check_out'),
+(3, '2024-11-01', '2024-11-01 08:00:00', 'check_in', '2024-11-01 09:00:00'),
+(3, '2024-11-01', '2024-11-01 12:00:00', 'break_start', null),
+(3, '2024-11-01', '2024-11-01 12:30:00', 'break_end', null),
+(3, '2024-11-01', '2024-11-01 17:00:00', 'check_out', null),
 -- Day 2
-(3, '2024-11-02', '2024-11-02 08:00:00', 'check_in'),
-(3, '2024-11-02', '2024-11-02 12:00:00', 'break_start'),
-(3, '2024-11-02', '2024-11-02 12:30:00', 'break_end'),
-(3, '2024-11-02', '2024-11-02 17:00:00', 'check_out');
+(3, '2024-11-02', '2024-11-02 08:00:00', 'check_in', null),
+(3, '2024-11-02', '2024-11-02 12:00:00', 'break_start', null),
+(3, '2024-11-02', '2024-11-02 12:30:00', 'break_end', null),
+(3, '2024-11-02', '2024-11-02 17:00:00', 'check_out', null);
+
+-- Til at populate notes, men fordi den er joined med user, så behøver ikke alle informationen at blive skrevet her :) querien for det er forneden
+INSERT INTO note (note_date, writer_id, recipient_id, written_note)
+VALUES
+    ('2024-11-01', 1, 2, 'ændret tid'), 
+    ('2024-12-02', 3, 3, 'glemte at checke ind, pls Brain ikke vær sur! :(');
+
 
 -- Denne kan ikke bruge edit_time i nu
 -- Dette er en query der fyller weekly_timelog, programmet skal nok køre denne ugeligt/dagligt hvis det er noget vi finder nødvendigt
-INSERT INTO weekly_timelog (user_id, week_start, total_hours_worked)
-SELECT 
+insert into weekly_timelog (user_id, week_start, total_hours_worked)
+select 
     check_in_logs.user_id,
-    DATE_SUB(check_in_logs.shift_date, INTERVAL DAYOFWEEK(check_in_logs.shift_date) - 1 DAY) AS week_start,
-    SEC_TO_TIME(
-        SUM(
-			-- beregning af "arbejdstid"
-            TIME_TO_SEC(TIMEDIFF(check_out_logs.event_time, check_in_logs.event_time)) 
-            -- beregning af break der bliver taget fra "arbejdstiden"
-            - IFNULL((
-                -- summen af breaks per dag lagt sammen
-                SELECT SUM(TIME_TO_SEC(TIMEDIFF(break_end_logs.event_time, break_start_logs.event_time)))
-                FROM timelog break_start_logs
-                LEFT JOIN timelog break_end_logs 
-                    ON break_start_logs.user_id = break_end_logs.user_id 
-                    AND break_start_logs.shift_date = break_end_logs.shift_date
-                -- DETTE KAN DANNE FEJL FIX DET, den checker lige nu kun for per dag basis "shift_date" der skal laves en failsafe hvis det overskrider kl. 24
-                WHERE break_start_logs.event_type = 'break_start' 
-                  AND break_end_logs.event_type = 'break_end'
-                  AND break_start_logs.user_id = check_in_logs.user_id 
-                  AND break_start_logs.shift_date = check_in_logs.shift_date
+    -- coalesce gør sådan at den første ikke NULL bliver anvendt, i dette system checker den først for edited_time derefter event_time
+    date_sub(
+        date(coalesce(check_in_logs.edited_time, check_in_logs.event_time)), 
+        interval DAYOFWEEK(date(coalesce(check_in_logs.edited_time, check_in_logs.event_time))) - 1 day
+    ) as week_start,
+    sec_to_time(
+        sum(
+            -- Beregning af "arbejdstid"
+            time_to_sec(
+                timediff(
+                    coalesce(check_out_logs.edited_time, check_out_logs.event_time), 
+                    coalesce(check_in_logs.edited_time, check_in_logs.event_time)
+                )
+            )
+            -- Beregning af break der bliver taget fra "arbejdstiden"
+            - ifnull((
+                select SUM(TIME_TO_SEC(TIMEDIFF(
+                    coalesce(break_end_logs.edited_time, break_end_logs.event_time), 
+                    coalesce(break_start_logs.edited_time, break_start_logs.event_time)
+                )))
+                from timelog break_start_logs
+                left join timelog break_end_logs 
+				   on break_start_logs.user_id = break_end_logs.user_id 
+				  and break_start_logs.shift_date = break_end_logs.shift_date
+                where break_start_logs.event_type = 'break_start' 
+                  and break_end_logs.event_type = 'break_end'
+                  and break_start_logs.user_id = check_in_logs.user_id 
+                  and break_start_logs.shift_date = check_in_logs.shift_date
             ), 0)
         )
-    ) AS total_hours_worked
-FROM timelog check_in_logs
-LEFT JOIN timelog check_out_logs 
-    ON check_in_logs.user_id = check_out_logs.user_id 
-    AND check_in_logs.shift_date = check_out_logs.shift_date 
-    AND check_out_logs.event_type = 'check_out'
-WHERE check_in_logs.event_type = 'check_in'
--- grupering af dataen for en hel uge, til en enkel user
-GROUP BY check_in_logs.user_id, week_start;
+    ) as total_hours_worked
+from timelog check_in_logs
+left join timelog check_out_logs 
+    on	check_in_logs.user_id = check_out_logs.user_id 
+    and	check_in_logs.shift_date = check_out_logs.shift_date 
+    and	check_out_logs.event_type = 'check_out'
+where check_in_logs.event_type = 'check_in'
+group by check_in_logs.user_id, week_start;
+
+
+-- Dette er for populate notes
+SELECT 
+    notes.note_id,
+    notes.note_date,
+    notes.written_note,
+    writer.user_id as writer_id,
+    writer.full_name as writer_name,
+    recipient.user_id as recipient_id,
+    (notes.writer_id = notes.recipient_id) as self_note
+from notes
+join user as writer on notes.writer_id = writer.user_id
+join user as recipient on notes.recipient_id = recipient.user_id;
+
+
 
 
 

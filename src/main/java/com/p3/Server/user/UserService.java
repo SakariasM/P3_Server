@@ -1,9 +1,11 @@
-package com.p3.Server.users;
+package com.p3.Server.user;
 
+import com.p3.Server.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -57,5 +59,42 @@ public class UserService {
             user.setRole(role);
         }
         userRepository.save(user);
+    }
+
+    public Map<String, String> getUserRoleByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        String role = userOptional.map(User::getRole).orElse(null);
+        return JsonUtil.singleJsonResponse("role", role);
+    }
+
+    public Map<String, String> getManagerPassByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        String pass = userOptional.map(User::getPassword).orElse(null);
+        return JsonUtil.singleJsonResponse("password", pass);
+    }
+
+    public Map<String, Integer> getIdByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        Integer userId = userOptional.map(User::getUser_id).orElse(null);
+        return JsonUtil.singleJsonResponse("user_id", userId);
+    }
+
+    public Map<String, String> getNameByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        String name = userOptional.map(User::getFull_name).orElse(null);
+        return JsonUtil.singleJsonResponse("full_name", name);
+    }
+
+    public Map<String, Boolean> getClockInStatusByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        Boolean status = userOptional.map(User::getClocked_in).orElse(null);
+        return JsonUtil.singleJsonResponse("clocked_in", status);
+    }
+
+    public void updateClockInStatusByUsername(String username, boolean status) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalStateException("User not found"));
+        user.setClocked_in(status);
+        userRepository.save(user);
+
     }
 }

@@ -27,6 +27,11 @@ public class TimelogController {
      * POST
      */
 
+    @PostMapping(path = "/postCheckIn")
+    public void postCheckIn(@RequestBody String json){
+        timelogService.postCheckIn(json);
+    }
+
     /*
      * DELETE
      */

@@ -1,4 +1,4 @@
-package com.p3.Server.users;
+package com.p3.Server.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,9 +12,9 @@ public class User {
     private int user_id;
     private String username;
     private String full_name;
-    private int clocked_in; // Bool?
-    private int on_break;
-    private int logged_in;
+    private Boolean clocked_in; // Bool?
+    private Boolean on_break;
+    private Boolean logged_in;
     private String password;
     private String role;
 
@@ -23,9 +23,10 @@ public class User {
 
     }
 
-    public User(int user_id, String username, String full_name, int clocked_in, int on_break, int logged_in, String password, String role) {
+    public User(int user_id, String username, String full_name, Boolean clocked_in, Boolean on_break, Boolean logged_in, String password, String role) {
         this.user_id = user_id;
         this.username = username;
+        this.full_name = full_name;
         this.password = password;
         this.role = role;
         this.clocked_in = clocked_in;
@@ -33,9 +34,10 @@ public class User {
         this.logged_in = logged_in;
     }
 
-    public User(String username, String full_name, int clocked_in, int on_break, int logged_in, String password, String role) {
+    public User(String username, String full_name, Boolean clocked_in, Boolean on_break, Boolean logged_in, String password, String role) {
         this.username = username;
         this.password = password;
+        this.full_name = full_name;
         this.role = role;
         this.clocked_in = clocked_in;
         this.on_break = on_break;
@@ -49,12 +51,12 @@ public class User {
     public void setUser_id(int user_id) {this.user_id = user_id;}
     public String getFull_name() {return full_name;}
     public void setFull_name(String full_name) {this.full_name = full_name;}
-    public int getClocked_in() {return clocked_in;}
-    public void setClocked_in(int clocked_in) {this.clocked_in = clocked_in;}
-    public int getOn_break() {return on_break;}
-    public void setOn_break(int on_break) {this.on_break = on_break;}
-    public int getLogged_in() {return logged_in;}
-    public void setLogged_in(int logged_in) {this.logged_in = logged_in;}
+    public Boolean getClocked_in() {return clocked_in;}
+    public void setClocked_in(Boolean clocked_in) {this.clocked_in = clocked_in;}
+    public Boolean getOn_break() {return on_break;}
+    public void setOn_break(Boolean on_break) {this.on_break = on_break;}
+    public Boolean getLogged_in() {return logged_in;}
+    public void setLogged_in(Boolean logged_in) {this.logged_in = logged_in;}
     public String getUsername() {
         return username;
     }

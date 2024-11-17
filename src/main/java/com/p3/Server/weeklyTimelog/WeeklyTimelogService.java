@@ -47,5 +47,5 @@ public class WeeklyTimelogService {
                 .orElseThrow(() -> new IllegalStateException("Weekly timelog with ID " + id + " does not exist."));
     }
 
-    
+
 }

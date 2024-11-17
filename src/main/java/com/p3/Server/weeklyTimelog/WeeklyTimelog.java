@@ -42,4 +42,14 @@ public class WeeklyTimelog {
     public void setWeekStart(LocalDate weekStart) {this.weekStart = weekStart;}
     public LocalTime getTotalHoursWorked() {return totalHoursWorked;}
     public void setTotalHoursWorked(LocalTime totalHoursWorked) {this.totalHoursWorked = totalHoursWorked;}
+
+    @Override       // Override as toJSON?
+    public String toString() {
+        return "weeklyTimelog{" +
+                "weeklyId=" + weeklyId +
+                ", userId'" + userId +
+                ", weekStart='" + weekStart +
+                ", totalHoursWorked='" + totalHoursWorked +
+                '}';
+    }
 }

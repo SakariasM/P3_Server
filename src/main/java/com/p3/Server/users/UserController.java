@@ -7,13 +7,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path="api/user")
-public class UsersController {
+public class UserController {
 
-    private final UsersService usersService;
+    private final UserService userService;
 
     @Autowired      // Auto sets the userClassService as the constant
-    public UsersController(UsersService usersService) {
-        this.usersService = usersService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     /*
@@ -21,8 +21,8 @@ public class UsersController {
     */
 
     @GetMapping        // @getmapping for endpoint of server - get denotes client request to server
-    public List<Users> getUsers() {
-        return usersService.getUsers();
+    public List<User> getUsers() {
+        return userService.getUsers();
     }
 
     /*
@@ -30,8 +30,8 @@ public class UsersController {
      */
 
     @PostMapping
-    public void registerNewUser(@RequestBody Users user) {
-        usersService.addNewUser(user);
+    public void registerNewUser(@RequestBody User user) {
+        userService.addNewUser(user);
     }
 
     /*
@@ -40,19 +40,19 @@ public class UsersController {
 
     @DeleteMapping(path = "{user_id}")  // path will be api/user/"user_id"
     public void deleteUser(@PathVariable("user_id") int user_id) {
-        usersService.deleteUser(user_id);
+        userService.deleteUser(user_id);
     }
 
     /*
      * PUT
      */
 
-    @PutMapping(path = "{user_id}")
+    @PutMapping(path = "{user_id}") // TODO Add optional for clockedIn, onBreak, loggedIn - EVT gør til request body?
     public void updateUser(@PathVariable("user_id") int user_id,
                            @RequestParam(required = false) String username,
                            @RequestParam(required = false) String password,
                            @RequestParam(required = false) String role) {
-        usersService.updateUser(user_id, username, password, role);
+        userService.updateUser(user_id, username, password, role);
     }
 
 }

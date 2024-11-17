@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UsersRepository extends JpaRepository<Users, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
-    Optional<Users> findByUsername(String username);    // Look in users table for row with username
+    Optional<User> findByUsername(String username);    // Look in users table for row with username
 }

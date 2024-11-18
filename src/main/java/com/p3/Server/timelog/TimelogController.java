@@ -3,6 +3,7 @@ package com.p3.Server.timelog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -27,9 +28,9 @@ public class TimelogController {
      * POST
      */
 
-    @PostMapping(path = "/postCheckIn")
-    public void postCheckIn(@RequestBody String json){
-        timelogService.postCheckIn(json);
+    @PostMapping(path = "/checkIn")
+    public void postCheckIn(@PathVariable int user_id, @PathVariable LocalDateTime time){
+        timelogService.postCheckIn(user_id, time);
     }
 
     /*

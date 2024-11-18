@@ -23,11 +23,9 @@ public class TimelogService {
         return timelogRepository.findByMonthAndYear(month, year);
     }
 
-    public void postCheckIn(String json) {
-        Timelog timelog = new Timelog();
-
-        System.out.println(json);
-
+    public void postCheckIn(int user_id, LocalDateTime time) {
+        Timelog timelog = new Timelog(user_id, LocalDate.now(), time, "check_in");
+        timelogRepository.save(timelog);
     }
 
 }

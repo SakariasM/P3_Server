@@ -3,7 +3,11 @@ package com.p3.Server.timelog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path="api/timelog")
@@ -23,14 +27,35 @@ public class TimelogController {
         return timelogService.getMonthTimelogs(month, year);
     }
 
+    @GetMapping(path = "/ALL")
+    public Map<String, Object> getAllUserTodayTimelogs(@RequestParam int user_id, @RequestParam LocalDate date){
+        return timelogService.getAllUserTodayTimelogs(user_id, date);
+    }
+
     /*
      * POST
      */
 
-    @PostMapping(path = "/postCheckIn")
-    public void postCheckIn(@RequestBody String json){
-        timelogService.postCheckIn(json);
+    @PostMapping(path="/checkIn")       // api/timelog/checkIn
+    public void postCheckIn(@RequestBody Timelog checkIn){
+        timelogService.postCheckIn(checkIn);
     }
+
+    @PostMapping(path="/breakStart")    // api/timelog/breakStart
+    public void postBreakStart(@RequestBody Timelog breakStart){
+        timelogService.postBreakStart(breakStart);
+    }
+
+    @PostMapping(path="/breakEnd")      // api/timelog/breakEnd
+    public void postBreakEnd(@RequestBody Timelog breakEnd){
+        timelogService.postBreakEnd(breakEnd);
+    }
+
+    @PostMapping(path="/checkOut")
+    public void postCheckOut(@RequestBody Timelog checkOut){
+        timelogService.postCheckOut(checkOut);
+    }
+
 
     /*
      * DELETE
@@ -39,6 +64,7 @@ public class TimelogController {
     /*
      * PUT
      */
+
 
 
 }

@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TimelogService {
@@ -25,11 +27,39 @@ public class TimelogService {
         return timelogRepository.findByMonthAndYear(month, year);
     }
 
-    public void postCheckIn(String json) {
-        Timelog timelog = new Timelog();
+    public void postCheckIn(Timelog checkIn) {
+        checkIn.setEvent_time(LocalDateTime.now());
+        checkIn.setShift_date(LocalDate.now());
+        timelogRepository.save(checkIn);
+    }
 
-        System.out.println(json);
+    public void postBreakStart(Timelog breakStart) {
+        breakStart.setEvent_time(LocalDateTime.now());
+        breakStart.setShift_date(LocalDate.now());
+        timelogRepository.save(breakStart);
+    }
 
+    public void postBreakEnd(Timelog breakEnd) {
+        breakEnd.setEvent_time(LocalDateTime.now());
+        breakEnd.setShift_date(LocalDate.now());
+        timelogRepository.save(breakEnd);
+    }
+
+    public Map<String, Object> getAllUserTodayTimelogs(int user_id, LocalDate date){    // TODO overvej om det ikke skal være en del af jsonutil
+        List<Timelog> timelogs = timelogRepository.findByIdAndDay(user_id, date);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("userId", user_id);
+        response.put("date", date);
+        response.put("timelogs", timelogs);
+
+        return response;
+    }
+
+    public void postCheckOut(Timelog checkOut) {
+        checkOut.setEvent_time(LocalDateTime.now());
+        checkOut.setShift_date(LocalDate.now());
+        timelogRepository.save(checkOut);
     }
 
     public void checkAndHandleIncompleteTimelogs() {

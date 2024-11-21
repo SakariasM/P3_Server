@@ -36,6 +36,17 @@ public class TimelogController {
         return timelogService.getAllUserTodayTimelogs(user_id, date);
     }
 
+    @GetMapping("/lastCheckOut")
+    public Timelog getLastCheckOutEvent(@RequestParam int user_id) {
+        Timelog timelog = timelogService.getLastCheckOutEvent(user_id);
+        if (timelog == null) {
+            System.out.println("No last checkout event found for user_id: " + user_id);
+        } else {
+            System.out.println("Last checkout event: " + timelog);
+        }
+        return timelog;
+    }
+
     /*
      * POST
      */

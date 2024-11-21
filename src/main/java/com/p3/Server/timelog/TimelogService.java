@@ -80,4 +80,12 @@ public class TimelogService {
             System.out.println("Updated timelog ID = " + timelog.getLog_id());
         }
     }
+
+    public Timelog getLastCheckOutEvent(int userId) {
+        Timelog timelog = timelogRepository.findLastCheckOutEvent(userId, "check_out");
+        if (timelog == null) {
+            System.out.println("TimelogRepository returned null for userId: " + userId);
+        }
+        return timelog;
+    }
 }

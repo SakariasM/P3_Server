@@ -47,7 +47,7 @@ create table note (
 
 -- Til at populate user table
 insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
-('brian', 'Brian Donatello', '$2y$10$T9rVlb8uDPfN8waXfdiBveFr9f8RI1YgpEvhDTnvHzQchD0Vngq1.', 'manager', true, true, false), -- Example hashed password for 'admin'
+('brian', 'Brian Donatello', '$2a$12$5Vo5DAvp0t6WT7UxnMqtAOhbh5wKjc09R153p2j.2acIBmohc5yvC', 'manager', true, true, false), -- Example hashed password for 'admin'
 ('dorte', 'Dorte Johannes', null, 'employee', true, false, false),
 ('emilie', 'Emilie Nutella', null, 'employee', true, false, true);
  

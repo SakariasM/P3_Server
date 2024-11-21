@@ -75,10 +75,10 @@ insert into timelog (user_id, shift_date, event_time, event_type) values
 (2, '2024-11-01', '2024-11-01 12:30:00', 'break_end'),
 (2, '2024-11-01', '2024-11-01 14:00:00', 'check_out'),
 -- Day 2
-(2, '2024-12-02', '2024-12-02 09:00:00', 'check_in'),
-(2, '2024-12-02', '2024-12-02 12:00:00', 'break_start'),
-(2, '2024-12-02', '2024-12-02 12:30:00', 'break_end'),
-(2, '2024-12-02', '2024-12-02 14:00:00', 'check_out');
+(2, '2024-12-01', '2024-12-01 09:00:00', 'check_in'),
+(2, '2024-12-01', '2024-12-01 12:00:00', 'break_start'),
+(2, '2024-12-01', '2024-12-01 12:30:00', 'break_end'),
+(2, '2024-12-01', '2024-12-01 23:59:00', 'check_out');
 
 -- Edited timestamps test og det virker!
 insert into timelog (user_id, shift_date, event_time, event_type, edited_time) values

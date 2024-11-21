@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,13 +74,17 @@ public class TimelogService {
         for (Timelog timelog : incompleteTimelogs) {
             System.out.println("Found incomplete check-in for user: " + timelog.getUser_id());
 
+            //Getting the date and setting a specific time
+            LocalDate currentDate = LocalDate.now();
+            LocalTime specificTime = LocalTime.of(23, 59, 0);
+            LocalDateTime dateTimeWithSpecificTime = LocalDateTime.of(currentDate, specificTime);
 
             // Create a new Timelog for the check-out event
             Timelog checkOut = new Timelog();
             checkOut.setUser_id(timelog.getUser_id());
             checkOut.setShift_date(timelog.getShift_date());
             checkOut.setEvent_type("check_out");
-            checkOut.setEvent_time(LocalDateTime.now());
+            checkOut.setEvent_time(dateTimeWithSpecificTime);
             timelogRepository.save(checkOut); // Persist the update
             System.out.println("Updated timelog ID = " + timelog.getLog_id());
         }

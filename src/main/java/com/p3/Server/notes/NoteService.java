@@ -3,6 +3,7 @@ package com.p3.Server.notes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,10 @@ public class NoteService {
             throw new IllegalStateException("Note with ID " + id + " does not exist.");
         }
         noteRepository.deleteById(id);
+    }
+
+    public boolean noteExistsForDateAndUser(LocalDate noteDate, int userId) {
+        return noteRepository.existsByDateAndUser(noteDate, userId);
     }
 
 }

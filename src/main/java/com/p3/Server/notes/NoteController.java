@@ -3,6 +3,7 @@ package com.p3.Server.notes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,11 @@ public class NoteController {
     @GetMapping("/{id}")
     public Optional<Note> getNoteById(@PathVariable int id) {
         return noteService.getNoteById(id);
+    }
+
+    @GetMapping("/exists")
+    public boolean noteExists(@RequestParam LocalDate noteDate, @RequestParam int userId) {
+        return noteService.noteExistsForDateAndUser(noteDate, userId);
     }
 
     @PostMapping

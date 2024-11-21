@@ -34,8 +34,13 @@ public interface TimelogRepository extends JpaRepository<Timelog, Integer> {
     """)
     List<Timelog> findTodaysCheckInsWithoutCheckOuts();
 
+
     //finds the last check-out and only returns a single event
     @Query(value = "SELECT * FROM timelog WHERE user_id = :userId AND event_type = :eventType ORDER BY event_time DESC LIMIT 1", nativeQuery = true)
     Timelog findLastCheckOutEvent(@Param("userId") int userId, @Param("eventType") String eventType);
+
+    // Find all timelogs for a specific date
+    @Query("SELECT t FROM Timelog t WHERE DATE(t.shift_date) = :specificDate")
+    List<Timelog> findBySpecificDate(@Param("specificDate") LocalDate specificDate);
 }
 

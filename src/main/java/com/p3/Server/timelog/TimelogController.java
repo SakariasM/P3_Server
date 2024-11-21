@@ -21,7 +21,11 @@ public class TimelogController {
     /*
      * GET
      */
+    @GetMapping(path="/getTimelogsByDate")  // api/timelog/getTimelogsByDate?date={yyyy-MM-dd}
+    public List<Timelog> getTimelogsByDate(@RequestParam LocalDate date) {
+        return timelogService.getTimelogsForDate(date);
 
+    }
     @GetMapping(path="/getMonthlyTimelog")          // api/timelog/getMonthlyTimelog?month={month}&year={year}
     public List<Timelog> getAllUsersTimelogsMonth(@RequestParam int month, @RequestParam int year){
         return timelogService.getMonthTimelogs(month, year);

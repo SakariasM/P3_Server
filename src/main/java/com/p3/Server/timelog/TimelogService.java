@@ -26,6 +26,10 @@ public class TimelogService {
     public List<Timelog> getMonthTimelogs(int month, int year) {  // Kan enten tage imod int som bare bliver ændret, eller tage imod date object
         return timelogRepository.findByMonthAndYear(month, year);
     }
+    // Get timelogs for a specific date
+    public List<Timelog> getTimelogsForDate(LocalDate date) {
+        return timelogRepository.findBySpecificDate(date);
+    }
 
     public void postCheckIn(Timelog checkIn) {
         checkIn.setEvent_time(LocalDateTime.now());

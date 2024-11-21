@@ -33,5 +33,9 @@ public interface TimelogRepository extends JpaRepository<Timelog, Integer> {
           )
     """)
     List<Timelog> findTodaysCheckInsWithoutCheckOuts();
+
+    // Find all timelogs for a specific date
+    @Query("SELECT t FROM Timelog t WHERE DATE(t.shift_date) = :specificDate")
+    List<Timelog> findBySpecificDate(@Param("specificDate") LocalDate specificDate);
 }
 

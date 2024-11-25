@@ -40,8 +40,8 @@ public class UserController {
         return userService.getIdByUsername(username);
     }
 
-    @GetMapping(path = "name/{username}")
-    public Map<String, String> getNameByUsername(@PathVariable("username") String username) {
+    @GetMapping(path = "name/{id}")
+    public Map<String, String> getNameByID(@PathVariable("username") String username) {
         return userService.getNameByUsername(username);
     }
 
@@ -55,6 +55,15 @@ public class UserController {
         return userService.getBreakStatusById(user_id);
     }
 
+    @GetMapping(path = "fullName/{username}")
+    public Map<String, String> getFullNameByUsername(@PathVariable("username") String username) {
+        return userService.getNameByUsername(username);
+    }
+
+    @GetMapping(path = "fullNameId/{user_id}")
+    public Map<String, String> getFullNameByid(@PathVariable("user_id") int user_id) {
+        return userService.getNamebyId(user_id);
+    }
 
     /*
      * POST

@@ -84,6 +84,11 @@ public class UserService {
         String name = userOptional.map(User::getFull_name).orElse(null);
         return JsonUtil.singleJsonResponse("full_name", name);
     }
+    public Map<String, String> getNamebyId(int user_id) {
+        Optional<User> userOptional = userRepository.findByUser_id(user_id);
+        String name = userOptional.map(User::getFull_name).orElse(null);
+        return JsonUtil.singleJsonResponse("full_name", name);
+    }
 
     public Map<String, Boolean> getClockInStatusByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);

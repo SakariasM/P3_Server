@@ -110,7 +110,6 @@ public class UserService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalStateException("User not found"));
         user.setClocked_in(status);
         userRepository.save(user);
-
     }
 
     public Map<String, Boolean> getBreakStatusById(int user_id){
@@ -131,4 +130,3 @@ public class UserService {
         userRepository.save(user);
     }
 }
-

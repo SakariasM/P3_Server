@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -52,6 +51,7 @@ public class UserController {
         return userService.getClockInStatusByUsername(username);
     }
 
+
     @GetMapping(path = "info/users")
     /*public String getAllUsers() {
         return userService.getUsers().toString();
@@ -60,6 +60,12 @@ public class UserController {
         List<User> users = userService.getUsers();
         return ResponseEntity.ok(users); // Spring Boot automatically serializes the list to JSON
     }
+
+    @GetMapping(path = "breakStatus/{user_id}")
+    public Map<String, Boolean> getBreakStatusById(@PathVariable("user_id") int user_id) {
+        return userService.getBreakStatusById(user_id);
+    }
+
 
     /*
      * POST
@@ -85,19 +91,16 @@ public class UserController {
 
 
 
-    @PutMapping(path = "clockInStatus/{username}")
+    @PutMapping(path = "clockInStatus/{username}")// TODO vi skal have fikset den inkonsistent måde hvor vi kalder database - Enten username eller user_id ikke begge
     public void updateClockInStatusByUsername(@PathVariable("username") String username,
                                               @RequestParam boolean status ) {
         userService.updateClockInStatusByUsername(username, status);
     }
 
+
     @PutMapping(path = "update")
     public void updateUserInfo(@RequestBody User user){
-
             userService.updateUser(user);
-
-
-
     }
 
 
@@ -106,4 +109,16 @@ public class UserController {
 
 
 
+
+    @PutMapping(path = "breakStatus/{user_id}")
+    public void setOnBreakStatusById(@PathVariable("user_id") int user_id,
+                                 @RequestParam boolean status){
+        userService.setOnBreakStatusById(user_id, status);
+    }
+
+    @PutMapping(path="clockInStatus/userId/{user_id}")      // TODO temp path, men conflicter ellers med put på username
+    public void setClockedInStatusById(@PathVariable("user_id") int user_id,
+                                   @RequestParam boolean status) {
+        userService.setClockedInStatusById(user_id, status);
+    }
 }

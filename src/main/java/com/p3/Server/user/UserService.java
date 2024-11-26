@@ -110,6 +110,25 @@ public class UserService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalStateException("User not found"));
         user.setClocked_in(status);
         userRepository.save(user);
+
+    }
+
+    public Map<String, Boolean> getBreakStatusById(int user_id){
+        Optional<User> userOptional = userRepository.findByUser_id(user_id);
+        Boolean status = userOptional.map(User::getOn_break).orElse(null);
+        return  JsonUtil.singleJsonResponse("on_break", status);
+    }
+
+    public void setOnBreakStatusById(int user_id, boolean status){
+        User user = userRepository.findByUser_id(user_id).orElseThrow(() -> new IllegalStateException("User not found"));
+        user.setOn_break(status);
+        userRepository.save(user);
+    }
+
+    public void setClockedInStatusById(int user_id, boolean status){
+        User user = userRepository.findByUser_id(user_id).orElseThrow(() -> new IllegalStateException("User not found"));
+        user.setClocked_in(status);
+        userRepository.save(user);
     }
 }
 

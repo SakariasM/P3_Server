@@ -1,5 +1,6 @@
 package com.p3.Server.timelog;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,16 +38,30 @@ public class Timelog {
         this.event_type = event_type;
     }
 
-    public void setLog_id(int log_id) {this.log_id = log_id;}
-    public int getLog_id() {return log_id;}
-    public void setUser_id(int user_id) {this.user_id = user_id;}
-    public int getUser_id() {return user_id;}
-    public void setShift_date(LocalDate log_date) {this.shift_date = log_date;}
-    public LocalDate getShift_date() {return shift_date;}
-    public void setEvent_time(LocalDateTime event_time) {this.event_time = event_time;}
-    public LocalDateTime getEvent_time() {return event_time;}
-    public void setEvent_type(String event_type) {this.event_type = event_type;}
-    public String getEvent_type() {return event_type;}
+    @JsonProperty("log_id")
+    public int getLog_id() { return log_id; }
+    @JsonProperty("log_id")
+    public void setLog_id(int log_id) { this.log_id = log_id; }
+
+    @JsonProperty("user_id")
+    public int getUser_id() { return user_id; }
+    @JsonProperty("user_id")
+    public void setUser_id(int user_id) { this.user_id = user_id; }
+
+    @JsonProperty("shift_date")
+    public LocalDate getShift_date() { return shift_date; }
+    @JsonProperty("shift_date")
+    public void setShift_date(LocalDate shift_date) { this.shift_date = shift_date; }
+
+    @JsonProperty("event_time")
+    public LocalDateTime getEvent_time() { return event_time; }
+    @JsonProperty("event_time")
+    public void setEvent_time(LocalDateTime event_time) { this.event_time = event_time; }
+
+    @JsonProperty("event_type")
+    public String getEvent_type() { return event_type; }
+    @JsonProperty("event_type")
+    public void setEvent_type(String event_type) { this.event_type = event_type; }
 
     @Override       // Override as toJSON?
     public String toString() {

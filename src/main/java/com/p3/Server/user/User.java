@@ -23,6 +23,7 @@ public class User {
 
     }
 
+
     public User(int user_id, String username, String full_name, Boolean clocked_in, Boolean on_break, Boolean logged_in, String password, String role) {
         this.user_id = user_id;
         this.username = username;

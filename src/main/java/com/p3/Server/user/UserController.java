@@ -1,6 +1,7 @@
 package com.p3.Server.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +52,14 @@ public class UserController {
         return userService.getClockInStatusByUsername(username);
     }
 
+    @GetMapping(path = "info/users")
+    /*public String getAllUsers() {
+        return userService.getUsers().toString();
+    }*/
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getUsers();
+        return ResponseEntity.ok(users); // Spring Boot automatically serializes the list to JSON
+    }
 
     /*
      * POST
@@ -74,18 +83,27 @@ public class UserController {
      * PUT
      */
 
-    @PutMapping(path = "{user_id}") // TODO Add optional for clockedIn, onBreak, loggedIn - EVT gør til request body?
-    public void updateUser(@PathVariable("user_id") int user_id,
-                           @RequestParam(required = false) String username,
-                           @RequestParam(required = false) String password,
-                           @RequestParam(required = false) String role) {
-        userService.updateUser(user_id, username, password, role);
-    }
+
 
     @PutMapping(path = "clockInStatus/{username}")
     public void updateClockInStatusByUsername(@PathVariable("username") String username,
                                               @RequestParam boolean status ) {
         userService.updateClockInStatusByUsername(username, status);
     }
+
+    @PutMapping(path = "update")
+    public void updateUserInfo(@RequestBody User user){
+
+            userService.updateUser(user);
+
+
+
+    }
+
+
+
+
+
+
 
 }

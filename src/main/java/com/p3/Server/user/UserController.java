@@ -51,7 +51,6 @@ public class UserController {
         return userService.getClockInStatusByUsername(username);
     }
 
-
     @GetMapping(path = "info/users")
     /*public String getAllUsers() {
         return userService.getUsers().toString();
@@ -65,7 +64,6 @@ public class UserController {
     public Map<String, Boolean> getBreakStatusById(@PathVariable("user_id") int user_id) {
         return userService.getBreakStatusById(user_id);
     }
-
 
     /*
      * POST
@@ -89,8 +87,6 @@ public class UserController {
      * PUT
      */
 
-
-
     @PutMapping(path = "clockInStatus/{username}")// TODO vi skal have fikset den inkonsistent måde hvor vi kalder database - Enten username eller user_id ikke begge
     public void updateClockInStatusByUsername(@PathVariable("username") String username,
                                               @RequestParam boolean status ) {
@@ -102,13 +98,6 @@ public class UserController {
     public void updateUserInfo(@RequestBody User user){
             userService.updateUser(user);
     }
-
-
-
-
-
-
-
 
     @PutMapping(path = "breakStatus/{user_id}")
     public void setOnBreakStatusById(@PathVariable("user_id") int user_id,

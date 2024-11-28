@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -69,7 +70,7 @@ public class UserController {
      * POST
      */
 
-    @PostMapping
+    @PostMapping("newUser")
     public void registerNewUser(@RequestBody User user) {
         userService.addNewUser(user);
     }

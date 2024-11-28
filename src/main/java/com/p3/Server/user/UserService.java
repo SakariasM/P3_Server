@@ -40,25 +40,40 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    public void updateUser(int userId, String username, String password, String role) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("User not found"));
-            System.out.println(userId + username + password + role);
-        if(username != null && !username.isEmpty() && !Objects.equals(user.getUsername(), username)) {
-            Optional<User> userOptional = userRepository.findByUsername(username);
+    public void updateUser(User user) {
+        // Fetch the user from the database
+        User dbUser = userRepository.findById(user.getUser_id())
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+
+        // Debugging: Print the provided user information
+        System.out.println("Updating user with ID: " + user.getUser_id());
+        System.out.println("Provided info - Username: " + user.getUsername() +
+                ", Full Name: " + user.getFull_name() +
+                ", Role: " + user.getRole() +
+                ", Password: " + user.getPassword());
+
+        if (user.getUsername() != null && !user.getUsername().isEmpty() && !Objects.equals(dbUser.getUsername(), user.getUsername())) {
+            Optional<User> userOptional = userRepository.findByUsername(user.getUsername());
             if (userOptional.isPresent()) {
                 throw new IllegalStateException("Username already exists");
             }
-            user.setUsername(username);
+            dbUser.setUsername(user.getUsername());
         }
 
-        if(password != null && !password.isEmpty() && !Objects.equals(user.getPassword(), password)) {
-            user.setPassword(password);
+        if (user.getPassword() != null && !user.getPassword().isEmpty() && !Objects.equals(dbUser.getPassword(), user.getPassword())) {
+            dbUser.setPassword(user.getPassword());
         }
 
-        if(role != null && !role.isEmpty() && !Objects.equals(user.getRole(), role)) {
-            user.setRole(role);
+        if (user.getRole() != null && !user.getRole().isEmpty() && !Objects.equals(dbUser.getRole(), user.getRole())) {
+            dbUser.setRole(user.getRole());
         }
-        userRepository.save(user);
+        if (user.getFull_name() != null && !user.getFull_name().isEmpty() && !Objects.equals(dbUser.getFull_name(), user.getFull_name())) {
+            dbUser.setFull_name(user.getFull_name());
+        }
+
+        userRepository.save(dbUser);
+
+        System.out.println("User updated successfully: " + dbUser);
     }
 
     public Map<String, String> getUserRoleByUsername(String username) {

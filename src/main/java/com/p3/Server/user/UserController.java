@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -60,11 +59,11 @@ public class UserController {
         List<User> users = userService.getUsers();
         return ResponseEntity.ok(users); // Spring Boot automatically serializes the list to JSON
     }
+
     @GetMapping(path = "breakStatus/{user_id}")
     public Map<String, Boolean> getBreakStatusById(@PathVariable("user_id") int user_id) {
         return userService.getBreakStatusById(user_id);
     }
-
 
     /*
      * POST
@@ -88,28 +87,17 @@ public class UserController {
      * PUT
      */
 
-
-
     @PutMapping(path = "clockInStatus/{username}")// TODO vi skal have fikset den inkonsistent måde hvor vi kalder database - Enten username eller user_id ikke begge
     public void updateClockInStatusByUsername(@PathVariable("username") String username,
                                               @RequestParam boolean status ) {
         userService.updateClockInStatusByUsername(username, status);
     }
 
+
     @PutMapping(path = "update")
     public void updateUserInfo(@RequestBody User user){
-
             userService.updateUser(user);
-
-
-
     }
-
-
-
-
-
-
 
     @PutMapping(path = "breakStatus/{user_id}")
     public void setOnBreakStatusById(@PathVariable("user_id") int user_id,

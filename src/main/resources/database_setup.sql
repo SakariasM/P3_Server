@@ -144,7 +144,6 @@ left join timelog check_out_logs
 where check_in_logs.event_type = 'check_in'
 group by check_in_logs.user_id, week_start;
 
-
 -- Dette er for populate notes
 SELECT 
     notes.note_id,
@@ -157,11 +156,3 @@ SELECT
 from notes
 join user as writer on notes.writer_id = writer.user_id
 join user as recipient on notes.recipient_id = recipient.user_id;
-
-
-
-
-
-
-
-

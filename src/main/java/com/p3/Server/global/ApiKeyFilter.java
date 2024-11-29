@@ -20,12 +20,13 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String requestUri = request.getRequestURI();
 
-        // Whitelist/Allowlist if we're being progressive
-        if (requestUri.equals("/api/time/getTime") ||
-                requestUri.equals("/api/user/role/") ||
-                requestUri.equals("/api/user/pass/") ||
-                requestUri.equals("/api/user/name/") ||
-                requestUri.equals("/api/user/clockInStatus/") || requestUri.equals("/api/timelog/checkIn/")) {
+        // Whitelist endpoints that do not require API-Key
+        if (requestUri.equals("/api/time/getTime")
+                || requestUri.startsWith("/api/user/apiKey/")
+                || requestUri.startsWith("/api/user/role/")
+                || requestUri.startsWith("/api/user/pass/")
+                || requestUri.startsWith("/api/user/name/")
+                || requestUri.startsWith("/api/user/id/")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -37,4 +38,5 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
 }

@@ -12,16 +12,13 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private ApiKeyManager apiKeyManager;
+    private final ApiKeyManager apiKeyManager;
     private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ApiKeyManager apiKeyManager) {
         this.userRepository = userRepository;
-    }
-
-    public List<User> getUsers() {
-        return userRepository.findAll();   // Return every user in database <Maybe password should not be included?>
+        this.apiKeyManager = apiKeyManager;
     }
 
     public void addNewUser(User user) {

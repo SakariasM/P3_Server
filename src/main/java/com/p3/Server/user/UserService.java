@@ -1,5 +1,6 @@
 package com.p3.Server.user;
 
+import com.p3.Server.timelog.TimelogService;
 import com.p3.Server.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final TimelogService timelogService;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, TimelogService timelogService) {
         this.userRepository = userRepository;
+        this.timelogService = timelogService;
     }
 
     public List<User> getUsers() {
@@ -29,7 +32,8 @@ public class UserService {
         if (usersOptional.isPresent()) {    // If username already exists in database
             throw new IllegalStateException("Username already exists");
         }
-        userRepository.save(user);         // If it does not exist, it can be added
+        userRepository.save(user);
+
     }
 
     public void deleteUser(int userId) {
@@ -41,11 +45,11 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-        // Fetch the user from the database
+
         User dbUser = userRepository.findById(user.getUser_id())
                 .orElseThrow(() -> new IllegalStateException("User not found"));
 
-        // Debugging: Print the provided user information
+
         System.out.println("Updating user with ID: " + user.getUser_id());
         System.out.println("Provided info - Username: " + user.getUsername() +
                 ", Full Name: " + user.getFull_name() +

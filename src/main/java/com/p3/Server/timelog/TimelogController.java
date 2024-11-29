@@ -1,6 +1,8 @@
 package com.p3.Server.timelog;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -37,15 +39,17 @@ public class TimelogController {
     }
 
     @GetMapping("/lastCheckOut")
-    public Timelog getLastCheckOutEvent(@RequestParam int user_id) {
+    public ResponseEntity<Timelog> getLastCheckOutEvent(@RequestParam int user_id) {
         Timelog timelog = timelogService.getLastCheckOutEvent(user_id);
         if (timelog == null) {
             System.out.println("No last checkout event found for user_id: " + user_id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } else {
             System.out.println("Last checkout event: " + timelog);
+            return ResponseEntity.ok(timelog);
         }
-        return timelog;
     }
+
 
     /*
      * POST

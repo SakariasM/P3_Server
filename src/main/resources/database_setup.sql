@@ -48,7 +48,7 @@ create table note (
 -- Til at populate user table
 insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
 ('brian', 'Brian Donatello', '$2a$12$5Vo5DAvp0t6WT7UxnMqtAOhbh5wKjc09R153p2j.2acIBmohc5yvC', 'manager', true, true, false), -- Example hashed password for 'admin'
-('dorte', 'Dorte Johannes', null, 'employee', true, false, false),
+('dorte', 'Dorte Johannes', null, 'employee', false, false, false),
 ('emilie', 'Emilie Nutella', null, 'employee', true, false, true);
  
  
@@ -144,7 +144,6 @@ left join timelog check_out_logs
 where check_in_logs.event_type = 'check_in'
 group by check_in_logs.user_id, week_start;
 
-
 -- Dette er for populate notes
 SELECT 
     notes.note_id,
@@ -157,11 +156,3 @@ SELECT
 from notes
 join user as writer on notes.writer_id = writer.user_id
 join user as recipient on notes.recipient_id = recipient.user_id;
-
-
-
-
-
-
-
-

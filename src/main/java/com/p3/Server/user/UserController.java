@@ -55,6 +55,10 @@ public class UserController {
         return userService.getBreakStatusById(user_id);
     }
 
+    @GetMapping(path = "apiKey/{username}")
+    public Map<String, String> getApiKey(@PathVariable("username") String username) {
+        return userService.loginUser(username);
+    }
 
     /*
      * POST

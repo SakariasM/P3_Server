@@ -107,15 +107,15 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "user{" +
                 "user_id=" + user_id +
-                ", username='" + username + '\'' +
-                ", full_name='" + full_name + '\'' +
+                ", username='" + username +
+                ", full_name='" + full_name +
                 ", clocked_in=" + clocked_in +
                 ", on_break=" + on_break +
                 ", logged_in=" + logged_in +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
+                ", password='" + password +
+                ", role='" + role +
                 '}';
     }
 }

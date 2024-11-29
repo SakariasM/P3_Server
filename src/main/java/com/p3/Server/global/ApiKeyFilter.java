@@ -21,12 +21,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         String requestUri = request.getRequestURI();
 
         // Whitelist endpoints that do not require API-Key
-        if (requestUri.equals("/api/time/getTime")
-                || requestUri.startsWith("/api/user/apiKey/")
-                || requestUri.startsWith("/api/user/role/")
-                || requestUri.startsWith("/api/user/pass/")
-                || requestUri.startsWith("/api/user/name/")
-                || requestUri.startsWith("/api/user/id/")) {
+        if (requestUri.equals("/api/time/getTime") || requestUri.startsWith("/api/user/apiKey/")) {
             filterChain.doFilter(request, response);
             return;
         }

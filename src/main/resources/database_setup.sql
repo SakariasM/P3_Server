@@ -13,7 +13,7 @@ create table user (
     logged_in boolean not null,
     password varchar(255) default null, 
     role enum('employee', 'manager', 'deaktiverede') not null,
-    check (role = 'employee' OR (role = 'manager' OR (role = 'deaktiverede')))
+    check (role = 'employee' OR (role = 'deaktiverede' OR (role = 'manager' and password is not null)))
 );
 
 create table timelog (

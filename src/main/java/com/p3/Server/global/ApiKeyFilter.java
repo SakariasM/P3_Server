@@ -21,7 +21,11 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         String requestUri = request.getRequestURI();
 
         // Whitelist/Allowlist if we're being progressive
-        if (requestUri.equals("/api/time/getTime")) {
+        if (requestUri.equals("/api/time/getTime") ||
+                requestUri.equals("/api/user/role/") ||
+                requestUri.equals("/api/user/pass/") ||
+                requestUri.equals("/api/user/name/") ||
+                requestUri.equals("/api/user/clockInStatus/") || requestUri.equals("/api/timelog/checkIn/")) {
             filterChain.doFilter(request, response);
             return;
         }

@@ -50,6 +50,10 @@ public class TimelogController {
         }
     }
 
+    @GetMapping(path="history")
+    public List<List<Timelog>> getWeekTimelogs(@RequestParam LocalDate date, @RequestParam int userId) {
+        return timelogService.getWeekTimelogs(date, userId);
+    }
 
     /*
      * POST

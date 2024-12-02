@@ -45,14 +45,11 @@ create table note (
                       FOREIGN KEY (recipient_id) REFERENCES user(user_id)
 );
 
--- Til at populate user table
-insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
-                                                                                            ('brian', 'Brian Donatello', '$2a$12$5Vo5DAvp0t6WT7UxnMqtAOhbh5wKjc09R153p2j.2acIBmohc5yvC', 'manager', true, true, false), -- Example hashed password for 'admin'
-                                                                                            ('dorte', 'Dorte Johannes', null, 'employee', true, false, false),
-                                                                                            ('emilie', 'Emilie Nutella', null, 'employee', true, false, true);
-
-
--- Test til flere breaks på en dag
+('brian', 'Brian Donatello', '$2a$12$5Vo5DAvp0t6WT7UxnMqtAOhbh5wKjc09R153p2j.2acIBmohc5yvC', 'manager', true, true, false), -- Example hashed password for 'admin'
+('dorte', 'Dorte Johannes', null, 'employee', false, false, false),
+('emilie', 'Emilie Nutella', null, 'employee', true, false, true);
+ 
+ -- Test til flere breaks på en dag
 insert into timelog (user_id, shift_date, event_time, event_type) values
 -- Day 1
 (1, '2024-11-01', '2024-11-01 08:00:00', 'check_in'),
@@ -167,7 +164,6 @@ from timelog check_in_logs
 where check_in_logs.event_type = 'check_in'
 group by check_in_logs.user_id, week_start;
 
-
 -- Dette er for populate notes
 SELECT
     note.note_id,
@@ -180,3 +176,4 @@ SELECT
 from note
          join user as writer on note.writer_id = writer.user_id
          join user as recipient on note.recipient_id = recipient.user_id;
+

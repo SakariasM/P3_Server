@@ -3,7 +3,7 @@ package com.p3.Server.user;
 import com.p3.Server.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.p3.Server.global.ApiKeyManager;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -12,15 +12,13 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    private final ApiKeyManager apiKeyManager;
     private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ApiKeyManager apiKeyManager) {
         this.userRepository = userRepository;
-    }
-
-    public List<User> getUsers() {
-        return userRepository.findAll();   // Return every user in database <Maybe password should not be included?>
+        this.apiKeyManager = apiKeyManager;
     }
 
     public void addNewUser(User user) {
@@ -75,13 +73,13 @@ public class UserService {
 
     public Map<String, Integer> getIdByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
-        Integer userId = userOptional.map(User::getUser_id).orElse(null);
+        Integer userId = userOptional.map(User::getUserId).orElse(null);
         return JsonUtil.singleJsonResponse("user_id", userId);
     }
 
     public Map<String, String> getNameByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
-        String name = userOptional.map(User::getFull_name).orElse(null);
+        String name = userOptional.map(User::getFullName).orElse(null);
         return JsonUtil.singleJsonResponse("full_name", name);
     }
     public Map<String, String> getNamebyId(int user_id) {
@@ -92,31 +90,40 @@ public class UserService {
 
     public Map<String, Boolean> getClockInStatusByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
-        Boolean status = userOptional.map(User::getClocked_in).orElse(null);
+        Boolean status = userOptional.map(User::getClockedIn).orElse(null);
         return JsonUtil.singleJsonResponse("clocked_in", status);
     }
 
     public void updateClockInStatusByUsername(String username, boolean status) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalStateException("User not found"));
-        user.setClocked_in(status);
+        user.setClockedIn(status);
         userRepository.save(user);
     }
 
     public Map<String, Boolean> getBreakStatusById(int user_id){
         Optional<User> userOptional = userRepository.findByUser_id(user_id);
-        Boolean status = userOptional.map(User::getOn_break).orElse(null);
+        Boolean status = userOptional.map(User::getOnBreak).orElse(null);
         return  JsonUtil.singleJsonResponse("on_break", status);
     }
 
     public void setOnBreakStatusById(int user_id, boolean status){
         User user = userRepository.findByUser_id(user_id).orElseThrow(() -> new IllegalStateException("User not found"));
-        user.setOn_break(status);
+        user.setOnBreak(status);
         userRepository.save(user);
     }
 
     public void setClockedInStatusById(int user_id, boolean status){
         User user = userRepository.findByUser_id(user_id).orElseThrow(() -> new IllegalStateException("User not found"));
-        user.setClocked_in(status);
+        user.setClockedIn(status);
         userRepository.save(user);
+    }
+
+    public Map<String, String> loginUser(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isPresent()) {
+            String apiKey = apiKeyManager.generateApiKey(username);
+            return JsonUtil.singleJsonResponse("api_key", apiKey);
+        }
+        throw new IllegalStateException("User not found");
     }
 }

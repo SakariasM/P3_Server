@@ -19,6 +19,7 @@ public class Timelog {
     private LocalDateTime event_time;    // Time eller date?
     private String event_type;
     private LocalDateTime edited_time;
+
     public Timelog(){
 
     }
@@ -32,11 +33,12 @@ public class Timelog {
         this.edited_time = edited_time;
     }
 
-    public Timelog(int user_id, LocalDate shift_date, LocalDateTime event_time, String event_type) {
+    public Timelog(int user_id, LocalDate shift_date, LocalDateTime event_time, String event_type, LocalDateTime edited_time) {
         this.user_id = user_id;
         this.shift_date = shift_date;
         this.event_time = event_time;
         this.event_type = event_type;
+        this.edited_time = edited_time;
     }
 
     @JsonProperty("log_id")
@@ -80,6 +82,5 @@ public class Timelog {
                 ", edited_time=" + edited_time +
                 "}";
     }
-
 
 }

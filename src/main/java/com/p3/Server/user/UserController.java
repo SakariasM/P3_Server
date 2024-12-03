@@ -63,6 +63,11 @@ public class UserController {
     @GetMapping(path = "fullNameId/{user_id}")
     public Map<String, String> getFullNameByid(@PathVariable("user_id") int user_id) {
         return userService.getNamebyId(user_id);
+=======
+    @GetMapping(path = "apiKey/{username}")
+    public Map<String, String> getApiKey(@PathVariable("username") String username) {
+        return userService.loginUser(username);
+
     }
 
     /*

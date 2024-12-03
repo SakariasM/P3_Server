@@ -18,17 +18,18 @@ public class Timelog {
     private LocalDate shift_date;  // LocalDate eller bare date? Så vidt jeg kan læse mig frem til er localdate en nyere version, men kender ikke helt forskellen.
     private LocalDateTime event_time;    // Time eller date?
     private String event_type;
-
+    private LocalDateTime edited_time;
     public Timelog(){
 
     }
 
-    public Timelog(int log_id, int user_id, LocalDate shift_date, LocalDateTime event_time, String event_type) {
+    public Timelog(int log_id, int user_id, LocalDate shift_date, LocalDateTime event_time, String event_type, LocalDateTime edited_time) {
         this.log_id = log_id;
         this.user_id = user_id;
         this.shift_date = shift_date;
         this.event_time = event_time;
         this.event_type = event_type;
+        this.edited_time = edited_time;
     }
 
     public Timelog(int user_id, LocalDate shift_date, LocalDateTime event_time, String event_type) {
@@ -63,6 +64,11 @@ public class Timelog {
     @JsonProperty("event_type")
     public void setEvent_type(String event_type) { this.event_type = event_type; }
 
+    @JsonProperty("edited_time")
+    public LocalDateTime getEdited_time() { return edited_time; }
+    @JsonProperty("edited_time")
+    public void setEdited_time(LocalDateTime edited_time) { this.edited_time = edited_time; }
+
     @Override       // Override as toJSON?
     public String toString() {
         return "timelog{" +
@@ -71,6 +77,7 @@ public class Timelog {
                 ", shift_date=" + shift_date +
                 ", event_time=" + event_time +
                 ", event_type=" + event_type +
+                ", edited_time=" + edited_time +
                 "}";
     }
 

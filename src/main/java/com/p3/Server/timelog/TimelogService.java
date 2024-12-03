@@ -3,12 +3,12 @@ package com.p3.Server.timelog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.temporal.WeekFields;
+import java.util.*;
 
 @Service
 public class TimelogService {
@@ -101,5 +101,27 @@ public class TimelogService {
             timelog.setEvent_type("no_event");
         }
         return timelog;
+    }
+
+    public List<List<Timelog>> getWeekTimelogs(LocalDate date, int userId) {
+        LocalDate weekStart = date.with(WeekFields.of(Locale.getDefault()).dayOfWeek(), 1);
+        LocalDate weekEnd = weekStart.plusDays(6);
+
+        List<Timelog> weekTimelogs = timelogRepository.findByUserIdAndWeek(userId, weekStart, weekEnd); // Returns a list of all timelogs
+        List<List<Timelog>> weekTimelogsGroupedByDay = new ArrayList<>();   // A list that contains lists of timelogs, each sublist corresponds to all timelogs for the user on a specific day
+
+        for(int i = 0; i < 7; i++){     // O(n^2) not good :( but shit, it works    For each day in the week
+            LocalDate currentDay = weekStart.plusDays(i);
+            List<Timelog> dailyTimelogs = new ArrayList<>();
+
+            for(Timelog timelog : weekTimelogs){
+                if(timelog.getShift_date().isEqual(currentDay)){
+                    dailyTimelogs.add(timelog);
+                }
+            }
+            weekTimelogsGroupedByDay.add(dailyTimelogs);
+        }
+
+        return weekTimelogsGroupedByDay;
     }
 }

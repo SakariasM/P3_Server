@@ -15,20 +15,15 @@ public class UserService {
 
     private final ApiKeyManager apiKeyManager;
     private final UserRepository userRepository;
-    private final TimelogService timelogService;
 
     @Autowired
-    public UserService(UserRepository userRepository, TimelogService timelogService) {
+    public UserService(ApiKeyManager apiKeyManager, UserRepository userRepository, TimelogService timelogService) {
+        this.apiKeyManager = apiKeyManager;
         this.userRepository = userRepository;
-        this.timelogService = timelogService;
     }
 
     public List<User> getUsers() {
         return userRepository.findAll();   // Return every user in database <Maybe password should not be included?>
-
-    public UserService(UserRepository userRepository, ApiKeyManager apiKeyManager) {
-        this.userRepository = userRepository;
-        this.apiKeyManager = apiKeyManager;
 
     }
 

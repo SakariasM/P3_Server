@@ -37,8 +37,9 @@ public class NoteController {
         return noteService.getWeekNotes(date, userId);
     }
 
-    @PostMapping
+    @PostMapping("/addNewNote")
     public Note addNewNote(@RequestBody Note note) {
+        System.out.println(note.getWritten_note());
         return noteService.addNewNote(note);
     }
 

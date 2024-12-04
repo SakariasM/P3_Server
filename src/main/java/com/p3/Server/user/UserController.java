@@ -60,6 +60,11 @@ public class UserController {
         return userService.loginUser(username);
     }
 
+    @GetMapping(path="nameById/{user_id}")
+    public String getNameById(@PathVariable("user_id") int user_id) {
+        return userService.getNameById(user_id);
+    }
+
     /*
      * POST
      */

@@ -121,4 +121,9 @@ public class UserService {
         }
         throw new IllegalStateException("User not found");
     }
+
+    public String getNameById(int user_id) {
+        Optional<User> userOptional = userRepository.findByUser_id(user_id);
+        return userOptional.map(User::getFullName).orElse(null);
+    }
 }

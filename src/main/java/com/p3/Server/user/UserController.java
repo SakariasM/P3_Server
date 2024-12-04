@@ -3,6 +3,7 @@ package com.p3.Server.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,17 +21,21 @@ public class UserController {
     * GET
     */
 
-   /* @GetMapping        // @getmapping for endpoint of server - get denotes client request to server
+    @GetMapping(path = "info/users")      // @getmapping for endpoint of server - get denotes client request to server
     public List<User> getUsers() {
         return userService.getUsers();
     }
-    */
+
+
     @GetMapping(path = "role/{username}")
     public Map<String, String> getUserRoleByUsername(@PathVariable("username") String username) {
         return userService.getUserRoleByUsername(username);
     }
 
-    @GetMapping(path = "pass/{username}")
+
+
+
+@GetMapping(path = "pass/{username}")
     public Map<String, String> getManagerPassByUsername(@PathVariable("username") String username) {
         return userService.getManagerPassByUsername(username);
     }
@@ -40,8 +45,8 @@ public class UserController {
         return userService.getIdByUsername(username);
     }
 
-    @GetMapping(path = "name/{username}")
-    public Map<String, String> getNameByUsername(@PathVariable("username") String username) {
+    @GetMapping(path = "name/{id}")
+    public Map<String, String> getNameByID(@PathVariable("username") String username) {
         return userService.getNameByUsername(username);
     }
 
@@ -55,16 +60,26 @@ public class UserController {
         return userService.getBreakStatusById(user_id);
     }
 
+    @GetMapping(path = "fullName/{username}")
+    public Map<String, String> getFullNameByUsername(@PathVariable("username") String username) {
+        return userService.getNameByUsername(username);
+    }
+
+    @GetMapping(path = "fullNameId/{user_id}")
+    public Map<String, String> getFullNameByid(@PathVariable("user_id") int user_id) {
+        return userService.getNamebyId(user_id);
+    }
     @GetMapping(path = "apiKey/{username}")
     public Map<String, String> getApiKey(@PathVariable("username") String username) {
         return userService.loginUser(username);
+
     }
 
     /*
      * POST
      */
 
-    @PostMapping
+    @PostMapping("newUser")
     public void registerNewUser(@RequestBody User user) {
         userService.addNewUser(user);
     }

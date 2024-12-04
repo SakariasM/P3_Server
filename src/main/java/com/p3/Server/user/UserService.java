@@ -92,7 +92,7 @@ public class UserService {
     }
     public Map<String, String> getNamebyId(int user_id) {
         Optional<User> userOptional = userRepository.findByUser_id(user_id);
-        String name = userOptional.map(User::getFull_name).orElse(null);
+        String name = userOptional.map(User::getFullName).orElse(null);
         return JsonUtil.singleJsonResponse("full_name", name);
     }
 

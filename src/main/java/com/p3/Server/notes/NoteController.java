@@ -32,6 +32,11 @@ public class NoteController {
         return noteService.noteExistsForDateAndUser(noteDate, userId);
     }
 
+    @GetMapping("/week/history")
+    public List<List<Note>> getWeekNotes(@RequestParam LocalDate date, @RequestParam int userId) {
+        return noteService.getWeekNotes(date, userId);
+    }
+
     @PostMapping
     public Note addNewNote(@RequestBody Note note) {
         return noteService.addNewNote(note);

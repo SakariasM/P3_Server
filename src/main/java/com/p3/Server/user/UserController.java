@@ -97,13 +97,20 @@ public class UserController {
      * PUT
      */
 
-    @PutMapping(path = "{user_id}") // TODO Add optional for clockedIn, onBreak, loggedIn - EVT gør til request body?
+
+    @PutMapping(path = "update")
+    public void updateUserInfo(@RequestBody User user){
+        userService.updateUser(user);
+    }
+
+    //TODO HVORFOR ÆNDRER DU .updateUser, uden at apply ændringerne på frontend??? NU DET JO BROKEN + hvad bruger vi update user til udover "rediger medarbejder"
+   /* @PutMapping(path = "{user_id}") // TODO Add optional for clockedIn, onBreak, loggedIn - EVT gør til request body?
     public void updateUser(@PathVariable("user_id") int user_id,
                            @RequestParam(required = false) String username,
                            @RequestParam(required = false) String password,
                            @RequestParam(required = false) String role) {
         userService.updateUser(user_id, username, password, role);
-    }
+    } */
 
     @PutMapping(path = "clockInStatus/{username}")// TODO vi skal have fikset den inkonsistent måde hvor vi kalder database - Enten username eller user_id ikke begge
     public void updateClockInStatusByUsername(@PathVariable("username") String username,

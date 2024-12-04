@@ -45,9 +45,11 @@ create table note (
                       FOREIGN KEY (recipient_id) REFERENCES user(user_id)
 );
 
-('brian', 'Brian Donatello', '$2a$12$5Vo5DAvp0t6WT7UxnMqtAOhbh5wKjc09R153p2j.2acIBmohc5yvC', 'manager', true, true, false), -- Example hashed password for 'admin'
-('dorte', 'Dorte Johannes', null, 'employee', false, false, false),
-('emilie', 'Emilie Nutella', null, 'employee', true, false, true);
+INSERT INTO user (username, full_name, password, role, clocked_in, on_break, logged_in)
+VALUES
+    ('brian', 'Brian Donatello', '$2a$12$5Vo5DAvp0t6WT7UxnMqtAOhbh5wKjc09R153p2j.2acIBmohc5yvC', 'manager', 1, 1, 0), -- Example hashed password for 'admin'
+    ('dorte', 'Dorte Johannes', NULL, 'employee', 0, 0, 0),
+    ('emilie', 'Emilie Nutella', NULL, 'employee', 1, 0, 1);
  
  -- Test til flere breaks på en dag
 insert into timelog (user_id, shift_date, event_time, event_type) values

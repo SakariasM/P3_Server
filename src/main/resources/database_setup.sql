@@ -5,15 +5,17 @@ use `database`;
 
 -- Disse er blot tables jeg opretter
 create table user (
-                      user_id int primary key auto_increment,
-                      username varchar(50) not null,
-                      full_name varchar(50) not null,
-                      clocked_in boolean not null,
-                      on_break boolean not null,
-                      logged_in boolean not null,
-                      password varchar(255) default null,
-                      role enum('employee', 'manager') not null,
-                      check (role = 'employee' OR (role = 'manager' and password is not null))
+
+    user_id int primary key auto_increment,
+    username varchar(50) not null,
+    full_name varchar(50) not null,
+    clocked_in boolean not null,
+    on_break boolean not null,
+    logged_in boolean not null,
+    password varchar(255) default null, 
+    role enum('employee', 'manager', 'deaktiverede') not null,
+    check (role = 'employee' OR (role = 'deaktiverede' OR (role = 'manager' and password is not null)))
+
 );
 
 create table timelog (

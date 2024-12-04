@@ -94,6 +94,11 @@ public class TimelogService {
         Timelog timelog = timelogRepository.findLastCheckOutEvent(userId, "check_out");
         if (timelog == null) {
             System.out.println("TimelogRepository returned null for userId: " + userId);
+            timelog = new Timelog();
+            timelog.setUser_id(userId);
+            timelog.setShift_date(LocalDate.now());
+            timelog.setEvent_time(LocalDateTime.now());
+            timelog.setEvent_type("no_event");
         }
         return timelog;
     }

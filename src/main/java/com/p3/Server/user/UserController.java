@@ -3,6 +3,7 @@ package com.p3.Server.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,17 +21,21 @@ public class UserController {
     * GET
     */
 
-   /* @GetMapping        // @getmapping for endpoint of server - get denotes client request to server
+    @GetMapping(path = "info/users")      // @getmapping for endpoint of server - get denotes client request to server
     public List<User> getUsers() {
         return userService.getUsers();
     }
-    */
+
+
     @GetMapping(path = "role/{username}")
     public Map<String, String> getUserRoleByUsername(@PathVariable("username") String username) {
         return userService.getUserRoleByUsername(username);
     }
 
-    @GetMapping(path = "pass/{username}")
+
+
+
+@GetMapping(path = "pass/{username}")
     public Map<String, String> getManagerPassByUsername(@PathVariable("username") String username) {
         return userService.getManagerPassByUsername(username);
     }
@@ -74,7 +79,7 @@ public class UserController {
      * POST
      */
 
-    @PostMapping
+    @PostMapping("newUser")
     public void registerNewUser(@RequestBody User user) {
         userService.addNewUser(user);
     }

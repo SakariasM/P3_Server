@@ -44,12 +44,12 @@ create table note (
                       FOREIGN KEY (writer_id) REFERENCES user(user_id),
                       FOREIGN KEY (recipient_id) REFERENCES user(user_id)
 );
+insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
+                                                                                            ('brian', 'Brian Donatello', '$2a$12$5Vo5DAvp0t6WT7UxnMqtAOhbh5wKjc09R153p2j.2acIBmohc5yvC', 'manager', true, true, false), -- Example hashed password for 'admin'
+                                                                                            ('dorte', 'Dorte Johannes', null, 'employee', false, false, false),
+                                                                                            ('emilie', 'Emilie Nutella', null, 'employee', true, false, false);
 
-('brian', 'Brian Donatello', '$2a$12$5Vo5DAvp0t6WT7UxnMqtAOhbh5wKjc09R153p2j.2acIBmohc5yvC', 'manager', true, true, false), -- Example hashed password for 'admin'
-('dorte', 'Dorte Johannes', null, 'employee', false, false, false),
-('emilie', 'Emilie Nutella', null, 'employee', true, false, true);
- 
- -- Test til flere breaks på en dag
+-- Test til flere breaks på en dag
 insert into timelog (user_id, shift_date, event_time, event_type) values
 -- Day 1
 (1, '2024-11-01', '2024-11-01 08:00:00', 'check_in'),
@@ -98,7 +98,56 @@ insert into timelog (user_id, shift_date, event_time, event_type) values
 (2, '2024-12-01', '2024-12-01 09:00:00', 'check_in'),
 (2, '2024-12-01', '2024-12-01 12:00:00', 'break_start'),
 (2, '2024-12-01', '2024-12-01 12:30:00', 'break_end'),
-(2, '2024-12-01', '2024-12-01 14:00:00', 'check_out');
+(2, '2024-12-01', '2024-12-01 14:00:00', 'check_out'),
+
+(2, '2024-12-11', '2024-12-11 08:13:00', 'check_in'),
+(2, '2024-12-11', '2024-12-11 12:07:00', 'break_start'),
+(2, '2024-12-11', '2024-12-11 12:29:00', 'break_end'),
+(2, '2024-12-11', '2024-12-11 17:22:00', 'check_out'),
+
+-- Sequence 2 (2024-12-12)
+(2, '2024-12-12', '2024-12-12 08:45:00', 'check_in'),
+(2, '2024-12-12', '2024-12-12 11:52:00', 'break_start'),
+(2, '2024-12-12', '2024-12-12 12:18:00', 'break_end'),
+(2, '2024-12-12', '2024-12-12 16:34:00', 'check_out'),
+
+-- Sequence 3 (2024-12-13)
+(2, '2024-12-13', '2024-12-13 07:38:00', 'check_in'),
+(2, '2024-12-13', '2024-12-13 10:17:00', 'break_start'),
+(2, '2024-12-13', '2024-12-13 10:38:00', 'break_end'),
+(2, '2024-12-13', '2024-12-13 15:48:00', 'check_out'),
+
+-- Sequence 4 (2024-12-14)
+(2, '2024-12-14', '2024-12-14 08:07:00', 'check_in'),
+(2, '2024-12-14', '2024-12-14 13:11:00', 'break_start'),
+(2, '2024-12-14', '2024-12-14 13:40:00', 'break_end'),
+(2, '2024-12-14', '2024-12-14 17:09:00', 'check_out'),
+
+-- Sequence 5 (2024-12-15)
+(2, '2024-12-15', '2024-12-15 08:19:00', 'check_in'),
+(2, '2024-12-15', '2024-12-15 11:42:00', 'break_start'),
+(2, '2024-12-15', '2024-12-15 12:02:00', 'break_end'),
+(2, '2024-12-15', '2024-12-15 16:57:00', 'check_out'),
+
+-- Sequence 6 (2024-12-16)
+(2, '2024-12-16', '2024-12-16 09:10:00', 'check_in'),
+(2, '2024-12-16', '2024-12-16 14:03:00', 'break_start'),
+(2, '2024-12-16', '2024-12-16 14:28:00', 'break_end'),
+(2, '2024-12-16', '2024-12-16 18:13:00', 'check_out'),
+
+-- Sequence 7 (2024-12-17)
+(2, '2024-12-17', '2024-12-17 08:31:00', 'check_in'),
+(2, '2024-12-17', '2024-12-17 12:15:00', 'break_start'),
+(2, '2024-12-17', '2024-12-17 12:37:00', 'break_end'),
+(2, '2024-12-17', '2024-12-17 17:25:00', 'check_out'),
+
+-- Sequence 8 (2024-12-18)
+(2, '2024-12-18', '2024-12-18 07:55:00', 'check_in'),
+(2, '2024-12-18', '2024-12-18 10:20:00', 'break_start'),
+(2, '2024-12-18', '2024-12-18 10:48:00', 'break_end'),
+(2, '2024-12-18', '2024-12-18 15:36:00', 'check_out');
+
+
 
 -- Edited timestamps test og det virker!
 insert into timelog (user_id, shift_date, event_time, event_type, edited_time) values

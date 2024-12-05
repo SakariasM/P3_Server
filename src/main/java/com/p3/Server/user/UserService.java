@@ -126,4 +126,21 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByUser_id(user_id);
         return userOptional.map(User::getFullName).orElse(null);
     }
+
+    public void checkAndHandleIncompleteClockedIns(){
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            if(user.getClockedIn()){
+                System.out.println("Changed clockin for user " + user.getUsername());
+                user.setClockedIn(false);
+            }
+            if(user.getOnBreak()){
+                System.out.println("Changed onBreak for user " + user.getUsername());
+                user.setOnBreak(false);
+            }
+
+            userRepository.save(user);
+        }
+    }
 }

@@ -87,6 +87,7 @@ public class TimelogService {
             checkOut.setEvent_time(dateTimeWithSpecificTime);
             timelogRepository.save(checkOut); // Persist the update
             System.out.println("Updated timelog ID = " + timelog.getLog_id());
+
         }
     }
 

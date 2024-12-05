@@ -1,5 +1,6 @@
 package com.p3.Server.user;
 
+import com.p3.Server.timelog.TimelogService;
 import com.p3.Server.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,14 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, ApiKeyManager apiKeyManager) {
-        this.userRepository = userRepository;
+    public UserService(ApiKeyManager apiKeyManager, UserRepository userRepository, TimelogService timelogService) {
         this.apiKeyManager = apiKeyManager;
+        this.userRepository = userRepository;
+    }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();   // Return every user in database <Maybe password should not be included?>
+
     }
 
     public void addNewUser(User user) {
@@ -27,7 +33,8 @@ public class UserService {
         if (usersOptional.isPresent()) {    // If username already exists in database
             throw new IllegalStateException("Username already exists");
         }
-        userRepository.save(user);         // If it does not exist, it can be added
+        userRepository.save(user);
+
     }
 
     public void deleteUser(int userId) {
@@ -38,25 +45,39 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    public void updateUser(int userId, String username, String password, String role) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("User not found"));
-            System.out.println(userId + username + password + role);
-        if(username != null && !username.isEmpty() && !Objects.equals(user.getUsername(), username)) {
-            Optional<User> userOptional = userRepository.findByUsername(username);
+
+    public void updateUser(User user) {
+        User dbUser = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+
+
+        System.out.println("Updating user with ID: " + user.getUserId());
+        System.out.println("Provided info - Username: " + user.getUsername() +
+                ", Full Name: " + user.getFullName() +
+                ", Role: " + user.getRole() +
+                ", Password: " + user.getPassword());
+
+        if (user.getUsername() != null && !user.getUsername().isEmpty() && !Objects.equals(dbUser.getUsername(), user.getUsername())) {
+            Optional<User> userOptional = userRepository.findByUsername(user.getUsername());
             if (userOptional.isPresent()) {
                 throw new IllegalStateException("Username already exists");
             }
-            user.setUsername(username);
+            dbUser.setUsername(user.getUsername());
         }
 
-        if(password != null && !password.isEmpty() && !Objects.equals(user.getPassword(), password)) {
-            user.setPassword(password);
+        if (user.getPassword() != null && !user.getPassword().isEmpty() && !Objects.equals(dbUser.getPassword(), user.getPassword())) {
+            dbUser.setPassword(user.getPassword());
         }
 
-        if(role != null && !role.isEmpty() && !Objects.equals(user.getRole(), role)) {
-            user.setRole(role);
+        if (user.getRole() != null && !user.getRole().isEmpty() && !Objects.equals(dbUser.getRole(), user.getRole())) {
+            dbUser.setRole(user.getRole());
         }
-        userRepository.save(user);
+        if (user.getFullName() != null && !user.getFullName().isEmpty() && !Objects.equals(dbUser.getFullName(), user.getFullName())) {
+            dbUser.setFullName(user.getFullName());
+        }
+
+        userRepository.save(dbUser);
+
     }
 
     public Map<String, String> getUserRoleByUsername(String username) {
@@ -79,6 +100,11 @@ public class UserService {
 
     public Map<String, String> getNameByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
+        String name = userOptional.map(User::getFullName).orElse(null);
+        return JsonUtil.singleJsonResponse("full_name", name);
+    }
+    public Map<String, String> getNamebyId(int user_id) {
+        Optional<User> userOptional = userRepository.findByUser_id(user_id);
         String name = userOptional.map(User::getFullName).orElse(null);
         return JsonUtil.singleJsonResponse("full_name", name);
     }

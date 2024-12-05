@@ -87,6 +87,7 @@ public class TimelogService {
             checkOut.setEvent_time(dateTimeWithSpecificTime);
             timelogRepository.save(checkOut); // Persist the update
             System.out.println("Updated timelog ID = " + timelog.getLog_id());
+
         }
     }
 
@@ -94,6 +95,11 @@ public class TimelogService {
         Timelog timelog = timelogRepository.findLastCheckOutEvent(userId, "check_out");
         if (timelog == null) {
             System.out.println("TimelogRepository returned null for userId: " + userId);
+            timelog = new Timelog();
+            timelog.setUser_id(userId);
+            timelog.setShift_date(LocalDate.now());
+            timelog.setEvent_time(LocalDateTime.now());
+            timelog.setEvent_type("no_event");
         }
         return timelog;
     }
@@ -118,5 +124,14 @@ public class TimelogService {
         }
 
         return weekTimelogsGroupedByDay;
+    }
+
+    public List<Timelog> getTimelogsByDateAndId(LocalDate date, int userId) {
+        return timelogRepository.findByIdAndDay(userId, date);
+    }
+
+    public void postTimelogs(List<Timelog> timelogs) {
+        System.out.println(timelogs);
+        timelogRepository.saveAll(timelogs);
     }
 }

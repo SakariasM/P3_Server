@@ -49,19 +49,19 @@ create table note (
 );
 -- Til at populate user table
 insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
-('brian', 'Brian Donatello', '$2a$10$ddoVNreE/6trBy5BIn2Al.JKAeclpb3kmliVN0oEBd8yX.Xex89WW', 'manager', true, true, false), -- Example hashed password for 'admin'
-('dorte', 'Dorte Johannes', null, 'employee', true, false, false),
-('emilie', 'Emilie Nutella', null, 'employee', true, false, true),
-('kim', 'Kim Erik', null, 'employee', true, false, true),
-('henrik', 'Henrik Larsen', null, 'employee', true, false, true),
-('frederik', 'Frederik Skov', null, 'employee', true, false, true),
-('børge', 'Børge Lund', null, 'employee', true, false, true),
-('villads', 'Villads Schantz', null, 'employee', true, false, true),
-('jonna', 'Jonna Jørgensen', null, 'employee', true, false, true),
-('sanny', 'Sanny Jensen', null, 'employee', true, false, true),
-('john', 'John Anders', null, 'employee', true, false, true),
-('åge', 'Åge Boge', null, 'employee', true, false, true),
-('Frederikke-Karoline', 'Fredderikke-Karoline Johannesen', null, 'employee', true, false, true);
+                                                                                            ('brian', 'Brian Donatello', '$2a$10$ddoVNreE/6trBy5BIn2Al.JKAeclpb3kmliVN0oEBd8yX.Xex89WW', 'manager', true, true, false), -- Example hashed password for 'admin'
+                                                                                            ('dorte', 'Dorte Johannes', null, 'employee', true, false, false),
+                                                                                            ('emilie', 'Emilie Nutella', null, 'employee', true, false, true),
+                                                                                            ('kim', 'Kim Erik', null, 'employee', true, false, true),
+                                                                                            ('henrik', 'Henrik Larsen', null, 'employee', true, false, true),
+                                                                                            ('frederik', 'Frederik Skov', null, 'employee', true, false, true),
+                                                                                            ('børge', 'Børge Lund', null, 'employee', true, false, true),
+                                                                                            ('villads', 'Villads Schantz', null, 'employee', true, false, true),
+                                                                                            ('jonna', 'Jonna Jørgensen', null, 'employee', true, false, true),
+                                                                                            ('sanny', 'Sanny Jensen', null, 'employee', true, false, true),
+                                                                                            ('john', 'John Anders', null, 'employee', true, false, true),
+                                                                                            ('åge', 'Åge Boge', null, 'employee', true, false, true),
+                                                                                            ('Frederikke-Karoline', 'Fredderikke-Karoline Johannesen', null, 'employee', true, false, true);
 
 
 
@@ -169,12 +169,7 @@ insert into timelog (user_id, shift_date, event_time, event_type) values
 (3, '2024-11-28', '2024-11-28 7:59:00', 'check_in'),
 (3, '2024-11-28', '2024-11-28 12:00:00', 'break_start'),
 (3, '2024-11-28', '2024-11-28 12:30:00', 'break_end'),
-(3, '2024-11-28', '2024-11-28 22:00:00', 'check_out');
-
-INSERT INTO note (note_date, writer_id, recipient_id, written_note)
-VALUES
-    ('2024-12-04', 2, 2, 'Glemte at checke ind om morgen kl. 8'),
-    ('2024-12-02', 1, 2, 'Ser man det');
+(3, '2024-11-28', '2024-11-28 22:00:00', 'check_out'),
 
 (2, '2024-11-26', '2024-11-26 09:00:00', 'check_in'),
 (2, '2024-11-26', '2024-11-26 12:00:00', 'break_start'),
@@ -263,57 +258,6 @@ insert into timelog (user_id, shift_date, event_time, event_type, edited_time) v
 (3, '2024-11-02', '2024-11-02 12:30:00', 'break_end', null),
 (3, '2024-11-02', '2024-11-02 17:00:00', 'check_out', null);
 
-insert into timelog (user_id, shift_date, event_time, event_type) values
--- Day 1
-(4, '2024-11-01', '2024-11-01 08:00:00', 'check_in'),
-(4, '2024-11-01', '2024-11-01 12:00:00', 'break_start'),
-(4, '2024-11-01', '2024-11-01 12:30:00', 'break_end'),
-(4, '2024-11-01', '2024-11-01 17:00:00', 'check_out'),
--- Day 2
-(4, '2024-11-02', '2024-11-02 08:00:00', 'check_in'),
-(4, '2024-11-02', '2024-11-02 12:00:00', 'break_start'),
-(4, '2024-11-02', '2024-11-02 12:30:00', 'break_end'),
-(4, '2024-11-02', '2024-11-02 17:00:00', 'check_out'),
--- Day 3
-(4, '2024-11-03', '2024-11-03 08:00:00', 'check_in'),
-(4, '2024-11-03', '2024-11-03 12:00:00', 'break_start'),
-(4, '2024-11-03', '2024-11-03 12:30:00', 'break_end'),
-(4, '2024-11-03', '2024-11-03 17:00:00', 'check_out'),
--- Day 4
-(4, '2024-11-04', '2024-11-04 08:00:00', 'check_in'),
-(4, '2024-11-04', '2024-11-04 12:00:00', 'break_start'),
-(4, '2024-11-04', '2024-11-04 12:30:00', 'break_end'),
-(4, '2024-11-04', '2024-11-04 17:00:00', 'check_out'),
--- Day 5
-(4, '2024-11-05', '2024-11-05 08:00:00', 'check_in'),
-(4, '2024-11-05', '2024-11-05 12:00:00', 'break_start'),
-(4, '2024-11-05', '2024-11-05 12:30:00', 'break_end'),
-(4, '2024-11-05', '2024-11-05 17:00:00', 'check_out'),
--- Day 6
-(4, '2024-11-06', '2024-11-06 08:00:00', 'check_in'),
-(4, '2024-11-06', '2024-11-06 12:00:00', 'break_start'),
-(4, '2024-11-06', '2024-11-06 12:30:00', 'break_end'),
-(4, '2024-11-06', '2024-11-06 17:00:00', 'check_out'),
--- Day 7
-(4, '2024-11-07', '2024-11-07 08:00:00', 'check_in'),
-(4, '2024-11-07', '2024-11-07 12:00:00', 'break_start'),
-(4, '2024-11-07', '2024-11-07 12:30:00', 'break_end'),
-(4, '2024-11-07', '2024-11-07 17:00:00', 'check_out'),
--- Day 8
-(4, '2024-11-08', '2024-11-08 08:00:00', 'check_in'),
-(4, '2024-11-08', '2024-11-08 12:00:00', 'break_start'),
-(4, '2024-11-08', '2024-11-08 12:30:00', 'break_end'),
-(4, '2024-11-08', '2024-11-08 17:00:00', 'check_out'),
--- Day 9
-(4, '2024-11-09', '2024-11-09 08:00:00', 'check_in'),
-(4, '2024-11-09', '2024-11-09 12:00:00', 'break_start'),
-(4, '2024-11-09', '2024-11-09 12:30:00', 'break_end'),
-(4, '2024-11-09', '2024-11-09 17:00:00', 'check_out'),
--- Day 10
-(4, '2024-12-28', '2024-12-28 09:00:00', 'check_in'),
-(4, '2024-12-28', '2024-12-28 12:00:00', 'break_start'),
-(4, '2024-12-28', '2024-12-28 15:30:00', 'break_end'),
-(4, '2024-12-28', '2024-12-28 16:00:00', 'check_out');
 
 insert into timelog (user_id, shift_date, event_time, event_type) values
 -- Day 1
@@ -375,11 +319,12 @@ insert into timelog (user_id, shift_date, event_time, event_type) values
 (10, '2025-01-08', '2025-01-08 17:00:00', 'check_out');
 
 -- Til at populate notes, men fordi den er joined med user, så behøver ikke alle informationen at blive skrevet her :) querien for det er forneden
-INSERT INTO note (note_date, writer_id, recipient_id, written_note)
+INSERT INTO note (note_date, writer_id, recipient_id, full_name, written_note)
 VALUES
-    ('2024-11-01', 1, 2, 'ændret tid'),
-    ('2024-12-02', 3, 3, 'glemte at checke ind, pls Brain ikke vær sur! :(');
-
+    ('2024-11-01', 1, 2, 'Brian Donatello', 'ændret tid'),
+    ('2024-12-02', 3, 3, 'Emilie Nutella', 'glemte at checke ind, pls Brain ikke vær sur! :('),
+    ('2024-12-04', 2, 2, 'Dorte Johannes', 'Glemte at checke ind om morgen kl. 8'),
+    ('2024-12-02', 1, 2, 'Brian Donatello', 'Ser man det');
 
 -- Denne kan ikke bruge edit_time i nu
 -- Dette er en query der fyller weekly_timelog, programmet skal nok køre denne ugeligt/dagligt hvis det er noget vi finder nødvendigt

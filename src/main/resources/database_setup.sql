@@ -49,19 +49,19 @@ create table note (
 );
 -- Til at populate user table
 insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
-                                                                                            ('brian', 'Brian Donatello', '$2a$10$ddoVNreE/6trBy5BIn2Al.JKAeclpb3kmliVN0oEBd8yX.Xex89WW', 'manager', true, true, false), -- Example hashed password for 'admin'
-                                                                                            ('dorte', 'Dorte Johannes', null, 'employee', true, false, false),
-                                                                                            ('emilie', 'Emilie Nutella', null, 'employee', true, false, true),
-                                                                                            ('kim', 'Kim Erik', null, 'employee', true, false, true),
-                                                                                            ('henrik', 'Henrik Larsen', null, 'employee', true, false, true),
-                                                                                            ('frederik', 'Frederik Skov', null, 'employee', true, false, true),
-                                                                                            ('børge', 'Børge Lund', null, 'employee', true, false, true),
-                                                                                            ('villads', 'Villads Schantz', null, 'employee', true, false, true),
-                                                                                            ('jonna', 'Jonna Jørgensen', null, 'employee', true, false, true),
-                                                                                            ('sanny', 'Sanny Jensen', null, 'employee', true, false, true),
-                                                                                            ('john', 'John Anders', null, 'employee', true, false, true),
-                                                                                            ('åge', 'Åge Boge', null, 'employee', true, false, true),
-                                                                                            ('Frederikke-Karoline', 'Fredderikke-Karoline Johannesen', null, 'employee', true, false, true);
+('brian', 'Brian Donatello', '$2a$10$ddoVNreE/6trBy5BIn2Al.JKAeclpb3kmliVN0oEBd8yX.Xex89WW', 'manager', true, true, false), -- Example hashed password for 'admin'
+('dorte', 'Dorte Johannes', null, 'employee', true, false, false),
+('emilie', 'Emilie Nutella', null, 'employee', true, false, true),
+('kim', 'Kim Erik', null, 'employee', true, false, true),
+('henrik', 'Henrik Larsen', null, 'employee', true, false, true),
+('frederik', 'Frederik Skov', null, 'employee', true, false, true),
+('børge', 'Børge Lund', null, 'employee', true, false, true),
+('villads', 'Villads Schantz', null, 'employee', true, false, true),
+('jonna', 'Jonna Jørgensen', null, 'employee', true, false, true),
+('sanny', 'Sanny Jensen', null, 'employee', true, false, true),
+('john', 'John Anders', null, 'employee', true, false, true),
+('åge', 'Åge Boge', null, 'employee', true, false, true),
+('Frederikke-Karoline', 'Fredderikke-Karoline Johannesen', null, 'employee', true, false, true);
 
 
 
@@ -82,12 +82,99 @@ insert into timelog (user_id, shift_date, event_time, event_type) values
 
 -- Test til samme user men forskellige uger
 insert into timelog (user_id, shift_date, event_time, event_type) values
--- Day 1
-(2, '2024-11-01', '2024-11-01 09:00:00', 'check_in'),
-(2, '2024-11-01', '2024-11-01 12:00:00', 'break_start'),
-(2, '2024-11-01', '2024-11-01 12:30:00', 'break_end'),
-(2, '2024-11-01', '2024-11-01 14:00:00', 'check_out'),
--- Day 2
+
+-- december brian
+(1, '2024-12-01', '2024-12-01 09:00:00', 'check_in'),
+(1, '2024-12-01', '2024-12-01 12:00:00', 'break_start'),
+(1, '2024-12-01', '2024-12-01 12:30:00', 'break_end'),
+(1, '2024-12-01', '2024-12-01 14:00:00', 'check_out'),
+
+(1, '2024-12-02', '2024-12-02 09:00:00', 'check_in'),
+(1, '2024-12-02', '2024-12-02 12:00:00', 'break_start'),
+(1, '2024-12-02', '2024-12-02 12:30:00', 'break_end'),
+(1, '2024-12-02', '2024-12-02 14:00:00', 'check_out'),
+
+(1, '2024-12-03', '2024-12-03 09:00:00', 'check_in'),
+(1, '2024-12-03', '2024-12-03 12:00:00', 'break_start'),
+(1, '2024-12-03', '2024-12-03 12:30:00', 'break_end'),
+(1, '2024-12-03', '2024-12-03 14:00:00', 'check_out'),
+
+(1, '2024-12-04', '2024-12-04 11:59:00', 'check_in'),
+(1, '2024-12-04', '2024-12-04 12:00:00', 'break_start'),
+(1, '2024-12-04', '2024-12-04 12:30:00', 'break_end'),
+(1, '2024-12-04', '2024-12-04 14:00:00', 'check_out'),
+-- december Dorte
+(2, '2024-12-01', '2024-12-01 09:00:00', 'check_in'),
+(2, '2024-12-01', '2024-12-01 12:00:00', 'break_start'),
+(2, '2024-12-01', '2024-12-01 12:30:00', 'break_end'),
+(2, '2024-12-01', '2024-12-01 14:00:00', 'check_out'),
+
+(2, '2024-12-02', '2024-12-02 09:00:00', 'check_in'),
+(2, '2024-12-02', '2024-12-02 12:00:00', 'break_start'),
+(2, '2024-12-02', '2024-12-02 12:30:00', 'break_end'),
+(2, '2024-12-02', '2024-12-02 14:00:00', 'check_out'),
+
+(2, '2024-12-03', '2024-12-03 11:59:00', 'check_in'),
+(2, '2024-12-03', '2024-12-03 12:00:00', 'break_start'),
+(2, '2024-12-03', '2024-12-03 12:30:00', 'break_end'),
+(2, '2024-12-03', '2024-12-03 13:00:00', 'break_start'),
+(2, '2024-12-03', '2024-12-03 13:30:00', 'break_end'),
+(2, '2024-12-03', '2024-12-03 14:00:00', 'check_out'),
+
+(2, '2024-12-04', '2024-12-04 8:59:00', 'check_in'),
+(2, '2024-12-04', '2024-12-04 12:00:00', 'break_start'),
+(2, '2024-12-04', '2024-12-04 12:30:00', 'break_end'),
+(2, '2024-12-04', '2024-12-04 14:00:00', 'check_out'),
+-- december emilie
+(3, '2024-12-01', '2024-12-01 09:00:00', 'check_in'),
+(3, '2024-12-01', '2024-12-01 12:00:00', 'break_start'),
+(3, '2024-12-01', '2024-12-01 12:30:00', 'break_end'),
+(3, '2024-12-01', '2024-12-01 14:00:00', 'check_out'),
+
+(3, '2024-12-02', '2024-12-02 09:00:00', 'check_in'),
+(3, '2024-12-02', '2024-12-02 12:00:00', 'break_start'),
+(3, '2024-12-02', '2024-12-02 12:30:00', 'break_end'),
+(3, '2024-12-02', '2024-12-02 14:00:00', 'check_out'),
+
+(3, '2024-12-03', '2024-12-03 09:00:00', 'check_in'),
+(3, '2024-12-03', '2024-12-03 12:00:00', 'break_start'),
+(3, '2024-12-03', '2024-12-03 12:30:00', 'break_end'),
+(3, '2024-12-03', '2024-12-03 13:00:00', 'break_start'),
+(3, '2024-12-03', '2024-12-03 13:30:00', 'break_end'),
+(3, '2024-12-03', '2024-12-03 14:00:00', 'check_out'),
+
+(3, '2024-12-04', '2024-12-04 08:59:00', 'check_in'),
+(3, '2024-12-04', '2024-12-04 12:00:00', 'break_start'),
+(3, '2024-12-04', '2024-12-04 12:30:00', 'break_end'),
+(3, '2024-12-04', '2024-12-04 23:00:00', 'check_out'),
+
+-- uge 48 for emilie
+(3, '2024-11-25', '2024-11-25 07:00:00', 'check_in'),
+(3, '2024-11-25', '2024-11-25 12:00:00', 'break_start'),
+(3, '2024-11-25', '2024-11-25 12:30:00', 'break_end'),
+(3, '2024-11-25', '2024-11-25 22:00:00', 'check_out'),
+
+(3, '2024-11-26', '2024-11-26 07:00:00', 'check_in'),
+(3, '2024-11-26', '2024-11-26 12:00:00', 'break_start'),
+(3, '2024-11-26', '2024-11-26 12:30:00', 'break_end'),
+(3, '2024-11-26', '2024-11-26 22:00:00', 'check_out'),
+
+(3, '2024-11-27', '2024-11-27 07:00:00', 'check_in'),
+(3, '2024-11-27', '2024-11-27 12:00:00', 'break_start'),
+(3, '2024-11-27', '2024-11-27 12:30:00', 'break_end'),
+(3, '2024-11-27', '2024-11-27 13:00:00', 'break_start'),
+(3, '2024-11-27', '2024-11-27 13:30:00', 'break_end'),
+(3, '2024-11-27', '2024-11-27 22:00:00', 'check_out'),
+
+(3, '2024-11-28', '2024-11-28 7:59:00', 'check_in'),
+(3, '2024-11-28', '2024-11-28 12:00:00', 'break_start'),
+(3, '2024-11-28', '2024-11-28 12:30:00', 'break_end'),
+(3, '2024-11-28', '2024-11-28 22:00:00', 'check_out');
+
+INSERT INTO note (note_date, writer_id, recipient_id, written_note)
+VALUES
+    ('2024-12-04', 2, 2, 'Glemte at checke ind om morgen kl. 8'),
+    ('2024-12-02', 1, 2, 'Ser man det');
 
 (2, '2024-11-26', '2024-11-26 09:00:00', 'check_in'),
 (2, '2024-11-26', '2024-11-26 12:00:00', 'break_start'),

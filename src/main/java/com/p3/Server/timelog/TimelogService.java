@@ -125,4 +125,13 @@ public class TimelogService {
 
         return weekTimelogsGroupedByDay;
     }
+
+    public List<Timelog> getTimelogsByDateAndId(LocalDate date, int userId) {
+        return timelogRepository.findByIdAndDay(userId, date);
+    }
+
+    public void postTimelogs(List<Timelog> timelogs) {
+        System.out.println(timelogs);
+        timelogRepository.saveAll(timelogs);
+    }
 }

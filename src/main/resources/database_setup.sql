@@ -6,15 +6,15 @@ use `database`;
 -- Disse er blot tables jeg opretter
 create table user (
 
-    user_id int primary key auto_increment,
-    username varchar(50) not null,
-    full_name varchar(50) not null,
-    clocked_in boolean not null,
-    on_break boolean not null,
-    logged_in boolean not null,
-    password varchar(255) default null, 
-    role enum('employee', 'manager', 'deaktiverede') not null,
-    check (role = 'employee' OR (role = 'deaktiverede' OR (role = 'manager' and password is not null)))
+                      user_id int primary key auto_increment,
+                      username varchar(50) not null,
+                      full_name varchar(50) not null,
+                      clocked_in boolean not null,
+                      on_break boolean not null,
+                      logged_in boolean not null,
+                      password varchar(255) default null,
+                      role enum('employee', 'manager', 'deaktiverede') not null,
+                      check (role = 'employee' OR (role = 'deaktiverede' OR (role = 'manager' and password is not null)))
 
 );
 
@@ -47,12 +47,6 @@ create table note (
                       FOREIGN KEY (writer_id) REFERENCES user(user_id),
                       FOREIGN KEY (recipient_id) REFERENCES user(user_id)
 );
-insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
-                                                                                            ('brian', 'Brian Donatello', '$2a$12$5Vo5DAvp0t6WT7UxnMqtAOhbh5wKjc09R153p2j.2acIBmohc5yvC', 'manager', true, true, false), -- Example hashed password for 'admin'
-                                                                                            ('dorte', 'Dorte Johannes', null, 'employee', false, false, false),
-                                                                                            ('emilie', 'Emilie Nutella', null, 'employee', true, false, false);
-
-
 -- Til at populate user table
 insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
                                                                                             ('brian', 'Brian Donatello', '$2a$10$ddoVNreE/6trBy5BIn2Al.JKAeclpb3kmliVN0oEBd8yX.Xex89WW', 'manager', true, true, false), -- Example hashed password for 'admin'
@@ -169,13 +163,6 @@ insert into timelog (user_id, shift_date, event_time, event_type) values
 (2, '2024-12-18', '2024-12-18 10:20:00', 'break_start'),
 (2, '2024-12-18', '2024-12-18 10:48:00', 'break_end'),
 (2, '2024-12-18', '2024-12-18 15:36:00', 'check_out');
-
-(2, '2024-12-02', '2024-12-02 09:00:00', 'check_in'),
-(2, '2024-12-02', '2024-12-02 12:00:00', 'break_start'),
-(2, '2024-12-02', '2024-12-02 12:30:00', 'break_end'),
-(2, '2024-12-02', '2024-12-02 14:00:00', 'check_out');
-
-
 -- Edited timestamps test og det virker!
 insert into timelog (user_id, shift_date, event_time, event_type, edited_time) values
 -- Day 1
@@ -315,7 +302,7 @@ select
     u.full_name,
     date_sub(
             date(coalesce(check_in_logs.edited_time, check_in_logs.event_time)),
-        interval DAYOFWEEK(date(coalesce(check_in_logs.edited_time, check_in_logs.event_time))) - 1 day
+            interval DAYOFWEEK(date(coalesce(check_in_logs.edited_time, check_in_logs.event_time))) - 1 day
     ) as week_start,
     sec_to_time(
             sum(
@@ -353,21 +340,13 @@ group by check_in_logs.user_id, week_start, u.full_name;
 
 -- Dette er for populate notes
 SELECT
-    notes.note_id,
-    notes.note_date,
-    notes.written_note,
+    note.note_id,
+    note.note_date,
+    note.written_note,
     writer.user_id as writer_id,
     writer.full_name as writer_name,
     recipient.user_id as recipient_id,
-    (notes.writer_id = notes.recipient_id) as self_note
-from notes
-         join user as writer on notes.writer_id = writer.user_id
-         join user as recipient on notes.recipient_id = recipient.user_id;
-
-
-
-
-
-
-
-
+    (note.writer_id = note.recipient_id) as self_note
+from note
+         join user as writer on note.writer_id = writer.user_id
+         join user as recipient on note.recipient_id = recipient.user_id;

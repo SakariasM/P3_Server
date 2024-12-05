@@ -65,6 +65,10 @@ public class NoteService {
         return weekNotesGroupedByDay;
     }
 
+    public List<Note> getDayNotes(LocalDate date, int userId) {
+        return noteRepository.findByUserIdAndDate(userId, date);
+    }
+
 
 
 }

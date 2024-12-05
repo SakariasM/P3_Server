@@ -37,9 +37,13 @@ public class NoteController {
         return noteService.getWeekNotes(date, userId);
     }
 
+    @GetMapping("/day")
+    public List<Note> getDayNotes(@RequestParam LocalDate date, @RequestParam int userId) {
+        return noteService.getDayNotes(date, userId);
+    }
+
     @PostMapping("/addNewNote")
     public Note addNewNote(@RequestBody Note note) {
-        System.out.println(note.getWritten_note());
         return noteService.addNewNote(note);
     }
 

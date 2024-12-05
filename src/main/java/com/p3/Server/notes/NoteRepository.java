@@ -18,4 +18,8 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
     List<Note> findByUserIdAndWeek(@Param("userId") int userId,
                                    @Param("weekStart") LocalDate weekStart,
                                    @Param("weekEnd") LocalDate weekEnd);
+
+    @Query("SELECT n FROM Note n WHERE (n.writer_id = :userId OR n.recipient_id = :userId) AND n.note_date = :date")
+    List<Note> findByUserIdAndDate(@Param("userId") int userId,
+                                   @Param("date") LocalDate date);
 }

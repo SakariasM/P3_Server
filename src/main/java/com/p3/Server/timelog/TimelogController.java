@@ -28,6 +28,11 @@ public class TimelogController {
         return timelogService.getTimelogsForDate(date);
 
     }
+
+    @GetMapping(path="day")
+    public List<Timelog> getTimelogsByDateAndId(@RequestParam LocalDate date, @RequestParam Integer userId) {
+        return timelogService.getTimelogsByDateAndId(date, userId);
+    }
     @GetMapping(path="/getMonthlyTimelog")          // api/timelog/getMonthlyTimelog?month={month}&year={year}
     public List<Timelog> getAllUsersTimelogsMonth(@RequestParam int month, @RequestParam int year){
         return timelogService.getMonthTimelogs(month, year);
@@ -77,6 +82,11 @@ public class TimelogController {
     @PostMapping(path="/checkOut")
     public void postCheckOut(@RequestBody Timelog checkOut){
         timelogService.postCheckOut(checkOut);
+    }
+
+    @PostMapping(path="/list")
+    public void postTimelogs(@RequestBody List<Timelog> timelogs){
+        timelogService.postTimelogs(timelogs);
     }
 
 

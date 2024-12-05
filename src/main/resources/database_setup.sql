@@ -6,15 +6,15 @@ use `database`;
 -- Disse er blot tables jeg opretter
 create table user (
 
-    user_id int primary key auto_increment,
-    username varchar(50) not null,
-    full_name varchar(50) not null,
-    clocked_in boolean not null,
-    on_break boolean not null,
-    logged_in boolean not null,
-    password varchar(255) default null, 
-    role enum('employee', 'manager', 'deaktiverede') not null,
-    check (role = 'employee' OR (role = 'deaktiverede' OR (role = 'manager' and password is not null)))
+                      user_id int primary key auto_increment,
+                      username varchar(50) not null,
+                      full_name varchar(50) not null,
+                      clocked_in boolean not null,
+                      on_break boolean not null,
+                      logged_in boolean not null,
+                      password varchar(255) default null,
+                      role enum('employee', 'manager', 'deaktiverede') not null,
+                      check (role = 'employee' OR (role = 'deaktiverede' OR (role = 'manager' and password is not null)))
 
 );
 
@@ -47,7 +47,6 @@ create table note (
                       FOREIGN KEY (writer_id) REFERENCES user(user_id),
                       FOREIGN KEY (recipient_id) REFERENCES user(user_id)
 );
-
 -- Til at populate user table
 insert into user (username, full_name, password, role, clocked_in, on_break, logged_in) values
 ('brian', 'Brian Donatello', '$2a$10$ddoVNreE/6trBy5BIn2Al.JKAeclpb3kmliVN0oEBd8yX.Xex89WW', 'manager', true, true, false), -- Example hashed password for 'admin'
@@ -83,6 +82,7 @@ insert into timelog (user_id, shift_date, event_time, event_type) values
 
 -- Test til samme user men forskellige uger
 insert into timelog (user_id, shift_date, event_time, event_type) values
+
 -- december brian
 (1, '2024-12-01', '2024-12-01 09:00:00', 'check_in'),
 (1, '2024-12-01', '2024-12-01 12:00:00', 'break_start'),
@@ -176,6 +176,80 @@ VALUES
     ('2024-12-04', 2, 2, 'Glemte at checke ind om morgen kl. 8'),
     ('2024-12-02', 1, 2, 'Ser man det');
 
+(2, '2024-11-26', '2024-11-26 09:00:00', 'check_in'),
+(2, '2024-11-26', '2024-11-26 12:00:00', 'break_start'),
+(2, '2024-11-26', '2024-11-26 12:30:00', 'break_end'),
+(2, '2024-11-26', '2024-11-26 16:00:00', 'check_out'),
+
+(2, '2024-11-27', '2024-11-27 08:00:00', 'check_in'),
+(2, '2024-11-27', '2024-11-27 11:30:00', 'break_start'),
+(2, '2024-11-27', '2024-11-27 12:00:00', 'break_end'),
+(2, '2024-11-27', '2024-11-27 15:30:00', 'check_out'),
+
+(2, '2024-11-28', '2024-11-28 10:00:00', 'check_in'),
+(2, '2024-11-28', '2024-11-28 13:00:00', 'check_out'),
+
+(2, '2024-11-29', '2024-11-29 07:00:00', 'check_in'),
+(2, '2024-11-29', '2024-11-29 10:00:00', 'break_start'),
+(2, '2024-11-29', '2024-11-29 10:30:00', 'break_end'),
+(2, '2024-11-29', '2024-11-29 18:00:00', 'check_out'),
+
+(2, '2024-11-30', '2024-11-30 09:00:00', 'check_in'),
+(2, '2024-11-30', '2024-11-30 12:00:00', 'break_start'),
+(2, '2024-11-30', '2024-11-30 12:30:00', 'break_end'),
+(2, '2024-11-30', '2024-11-30 14:00:00', 'check_out'),
+
+(2, '2024-12-01', '2024-12-01 09:00:00', 'check_in'),
+(2, '2024-12-01', '2024-12-01 12:00:00', 'break_start'),
+(2, '2024-12-01', '2024-12-01 12:30:00', 'break_end'),
+(2, '2024-12-01', '2024-12-01 14:00:00', 'check_out'),
+
+(2, '2024-12-11', '2024-12-11 08:13:00', 'check_in'),
+(2, '2024-12-11', '2024-12-11 12:07:00', 'break_start'),
+(2, '2024-12-11', '2024-12-11 12:29:00', 'break_end'),
+(2, '2024-12-11', '2024-12-11 17:22:00', 'check_out'),
+
+-- Sequence 2 (2024-12-12)
+(2, '2024-12-12', '2024-12-12 08:45:00', 'check_in'),
+(2, '2024-12-12', '2024-12-12 11:52:00', 'break_start'),
+(2, '2024-12-12', '2024-12-12 12:18:00', 'break_end'),
+(2, '2024-12-12', '2024-12-12 16:34:00', 'check_out'),
+
+-- Sequence 3 (2024-12-13)
+(2, '2024-12-13', '2024-12-13 07:38:00', 'check_in'),
+(2, '2024-12-13', '2024-12-13 10:17:00', 'break_start'),
+(2, '2024-12-13', '2024-12-13 10:38:00', 'break_end'),
+(2, '2024-12-13', '2024-12-13 15:48:00', 'check_out'),
+
+-- Sequence 4 (2024-12-14)
+(2, '2024-12-14', '2024-12-14 08:07:00', 'check_in'),
+(2, '2024-12-14', '2024-12-14 13:11:00', 'break_start'),
+(2, '2024-12-14', '2024-12-14 13:40:00', 'break_end'),
+(2, '2024-12-14', '2024-12-14 17:09:00', 'check_out'),
+
+-- Sequence 5 (2024-12-15)
+(2, '2024-12-15', '2024-12-15 08:19:00', 'check_in'),
+(2, '2024-12-15', '2024-12-15 11:42:00', 'break_start'),
+(2, '2024-12-15', '2024-12-15 12:02:00', 'break_end'),
+(2, '2024-12-15', '2024-12-15 16:57:00', 'check_out'),
+
+-- Sequence 6 (2024-12-16)
+(2, '2024-12-16', '2024-12-16 09:10:00', 'check_in'),
+(2, '2024-12-16', '2024-12-16 14:03:00', 'break_start'),
+(2, '2024-12-16', '2024-12-16 14:28:00', 'break_end'),
+(2, '2024-12-16', '2024-12-16 18:13:00', 'check_out'),
+
+-- Sequence 7 (2024-12-17)
+(2, '2024-12-17', '2024-12-17 08:31:00', 'check_in'),
+(2, '2024-12-17', '2024-12-17 12:15:00', 'break_start'),
+(2, '2024-12-17', '2024-12-17 12:37:00', 'break_end'),
+(2, '2024-12-17', '2024-12-17 17:25:00', 'check_out'),
+
+-- Sequence 8 (2024-12-18)
+(2, '2024-12-18', '2024-12-18 07:55:00', 'check_in'),
+(2, '2024-12-18', '2024-12-18 10:20:00', 'break_start'),
+(2, '2024-12-18', '2024-12-18 10:48:00', 'break_end'),
+(2, '2024-12-18', '2024-12-18 15:36:00', 'check_out');
 -- Edited timestamps test og det virker!
 insert into timelog (user_id, shift_date, event_time, event_type, edited_time) values
 -- Day 1
@@ -315,7 +389,7 @@ select
     u.full_name,
     date_sub(
             date(coalesce(check_in_logs.edited_time, check_in_logs.event_time)),
-        interval DAYOFWEEK(date(coalesce(check_in_logs.edited_time, check_in_logs.event_time))) - 1 day
+            interval DAYOFWEEK(date(coalesce(check_in_logs.edited_time, check_in_logs.event_time))) - 1 day
     ) as week_start,
     sec_to_time(
             sum(
@@ -353,21 +427,13 @@ group by check_in_logs.user_id, week_start, u.full_name;
 
 -- Dette er for populate notes
 SELECT
-    notes.note_id,
-    notes.note_date,
-    notes.written_note,
+    note.note_id,
+    note.note_date,
+    note.written_note,
     writer.user_id as writer_id,
     writer.full_name as writer_name,
     recipient.user_id as recipient_id,
-    (notes.writer_id = notes.recipient_id) as self_note
-from notes
-         join user as writer on notes.writer_id = writer.user_id
-         join user as recipient on notes.recipient_id = recipient.user_id;
-
-
-
-
-
-
-
-
+    (note.writer_id = note.recipient_id) as self_note
+from note
+         join user as writer on note.writer_id = writer.user_id
+         join user as recipient on note.recipient_id = recipient.user_id;

@@ -11,21 +11,14 @@ import java.util.Optional;
 public class NoteController {
 
     private final NoteService noteService;
-
     @Autowired
     public NoteController(NoteService noteService) {
         this.noteService = noteService;
     }
 
-    @GetMapping
-    public List<Note> getAllNotes() {   // Skal nok aldrig bruges, kopierede bare lige fra users
-        return noteService.getAllNotes();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<Note> getNoteById(@PathVariable int id) {
-        return noteService.getNoteById(id);
-    }
+    /*
+    *           Get requests
+     */
 
     @GetMapping("/exists")
     public boolean noteExists(@RequestParam LocalDate noteDate, @RequestParam int userId) {
@@ -42,14 +35,14 @@ public class NoteController {
         return noteService.getDayNotes(date, userId);
     }
 
+
+    /*
+     *           Post requests
+     */
+
+
     @PostMapping("/addNewNote")
     public Note addNewNote(@RequestBody Note note) {
         return noteService.addNewNote(note);
     }
-
-    @DeleteMapping("/{id}")
-    public void deleteNoteById(@PathVariable int id) {
-        noteService.deleteNoteById(id);
-    }
-
 }

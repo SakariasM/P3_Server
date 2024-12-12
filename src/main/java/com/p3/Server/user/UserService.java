@@ -24,7 +24,6 @@ public class UserService {
 
     public List<User> getUsers() {
         return userRepository.findAll();   // Return every user in database <Maybe password should not be included?>
-
     }
 
     public void addNewUser(User user) {
@@ -49,13 +48,6 @@ public class UserService {
     public void updateUser(User user) {
         User dbUser = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new IllegalStateException("User not found"));
-
-
-        System.out.println("Updating user with ID: " + user.getUserId());
-        System.out.println("Provided info - Username: " + user.getUsername() +
-                ", Full Name: " + user.getFullName() +
-                ", Role: " + user.getRole() +
-                ", Password: " + user.getPassword());
 
         if (user.getUsername() != null && !user.getUsername().isEmpty() && !Objects.equals(dbUser.getUsername(), user.getUsername())) {
             Optional<User> userOptional = userRepository.findByUsername(user.getUsername());

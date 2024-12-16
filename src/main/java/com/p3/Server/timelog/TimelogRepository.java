@@ -48,5 +48,9 @@ public interface TimelogRepository extends JpaRepository<Timelog, Integer> {
     List<Timelog> findByUserIdAndWeek(@Param("userId") int userId,
                                       @Param("weekStart") LocalDate weekStart,
                                       @Param("weekEnd") LocalDate weekEnd);
+
+    // Find all timelogs for a given period
+    @Query("SELECT t FROM Timelog t WHERE t.shift_date BETWEEN :startDate AND :endDate")
+    List<Timelog> findByDatePeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }
 

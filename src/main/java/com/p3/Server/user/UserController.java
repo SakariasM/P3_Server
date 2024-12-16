@@ -1,6 +1,7 @@
 package com.p3.Server.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,63 +22,53 @@ public class UserController {
     * GET
     */
 
-    @GetMapping(path = "info/users")      // @getmapping for endpoint of server - get denotes client request to server
+    // gets List of all users
+    @GetMapping(path = "info/users")
     public List<User> getUsers() {
         return userService.getUsers();
     }
 
-
-    @GetMapping(path = "role/{username}")
-    public Map<String, String> getUserRoleByUsername(@PathVariable("username") String username) {
-        return userService.getUserRoleByUsername(username);
-    }
-
-
-
-
-@GetMapping(path = "pass/{username}")
-    public Map<String, String> getManagerPassByUsername(@PathVariable("username") String username) {
-        return userService.getManagerPassByUsername(username);
-    }
-
-    @GetMapping(path = "id/{username}")
-    public Map<String, Integer> getIdByUsername(@PathVariable("username") String username) {
-        return userService.getIdByUsername(username);
-    }
-
-    @GetMapping(path = "name/{id}")
-    public Map<String, String> getNameByID(@PathVariable("username") String username) {
-        return userService.getNameByUsername(username);
-    }
-
-    @GetMapping(path = "clockInStatus/{username}")
-    public Map<String, Boolean> getClockInStatusByUsername(@PathVariable("username") String username) {
-        return userService.getClockInStatusByUsername(username);
-    }
-
-    @GetMapping(path = "breakStatus/{user_id}")
-    public Map<String, Boolean> getBreakStatusById(@PathVariable("user_id") int user_id) {
-        return userService.getBreakStatusById(user_id);
-    }
-
-    @GetMapping(path = "fullName/{username}")
-    public Map<String, String> getFullNameByUsername(@PathVariable("username") String username) {
-        return userService.getNameByUsername(username);
-    }
-
-    @GetMapping(path = "fullNameId/{user_id}")
-    public Map<String, String> getFullNameByid(@PathVariable("user_id") int user_id) {
-        return userService.getNamebyId(user_id);
-    }
+    // Gets apikey based on username
     @GetMapping(path = "apiKey/{username}")
     public Map<String, String> getApiKey(@PathVariable("username") String username) {
         return userService.loginUser(username);
 
     }
 
-    @GetMapping(path="nameById/{user_id}")
-    public String getNameById(@PathVariable("user_id") int user_id) {
-        return userService.getNameById(user_id);
+    // Get mapping for requests of single piece of user information from username
+    @GetMapping("{username}/{requestedInformation}")
+    public ResponseEntity<?> getUserInformation(
+            @PathVariable("username") String username,
+            @PathVariable("requestedInformation") String requestedInformation) {
+        switch (requestedInformation){
+            case "role":
+                return ResponseEntity.ok(userService.getUserRoleByUsername(username));
+            case "password":
+                return ResponseEntity.ok(userService.getManagerPassByUsername(username));
+            case "id":
+                return ResponseEntity.ok(userService.getIdByUsername(username));
+            case "clockInStatus":
+                return ResponseEntity.ok(userService.getClockInStatusByUsername(username));
+            case "fullName":
+                return ResponseEntity.ok(userService.getNameByUsername(username));
+            default:
+                return ResponseEntity.badRequest().body(Map.of("error", "Unknown requested information: " + requestedInformation));
+
+        }
+    }
+
+    @GetMapping(path="id/{userId}/{requestedInformation}")
+    public ResponseEntity<?> getUserInformationById(
+            @PathVariable("userId") int userId,
+            @PathVariable("requestedInformation") String requestedInformation){
+        switch (requestedInformation){
+            case "breakStatus":
+                return ResponseEntity.ok(userService.getBreakStatusById(userId));
+            case "fullName":
+                return ResponseEntity.ok(userService.getNameById(userId));
+            default:
+                return ResponseEntity.badRequest().body(Map.of("error", "Unknown requested information: " + requestedInformation));
+        }
     }
 
     /*
@@ -108,16 +99,8 @@ public class UserController {
         userService.updateUser(user);
     }
 
-    //TODO HVORFOR ÆNDRER DU .updateUser, uden at apply ændringerne på frontend??? NU DET JO BROKEN + hvad bruger vi update user til udover "rediger medarbejder"
-   /* @PutMapping(path = "{user_id}") // TODO Add optional for clockedIn, onBreak, loggedIn - EVT gør til request body?
-    public void updateUser(@PathVariable("user_id") int user_id,
-                           @RequestParam(required = false) String username,
-                           @RequestParam(required = false) String password,
-                           @RequestParam(required = false) String role) {
-        userService.updateUser(user_id, username, password, role);
-    } */
 
-    @PutMapping(path = "clockInStatus/{username}")// TODO vi skal have fikset den inkonsistent måde hvor vi kalder database - Enten username eller user_id ikke begge
+    @PutMapping(path = "clockInStatus/{username}")
     public void updateClockInStatusByUsername(@PathVariable("username") String username,
                                               @RequestParam boolean status ) {
         userService.updateClockInStatusByUsername(username, status);
@@ -129,7 +112,7 @@ public class UserController {
         userService.setOnBreakStatusById(user_id, status);
     }
 
-    @PutMapping(path="clockInStatus/userId/{user_id}")      // TODO temp path, men conflicter ellers med put på username
+    @PutMapping(path="clockInStatus/userId/{user_id}")
     public void setClockedInStatusById(@PathVariable("user_id") int user_id,
                                    @RequestParam boolean status) {
         userService.setClockedInStatusById(user_id, status);

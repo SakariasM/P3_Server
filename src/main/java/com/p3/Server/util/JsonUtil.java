@@ -10,6 +10,4 @@ public class JsonUtil {
         response.put(key, value);
         return response;
     }
-
-
 }

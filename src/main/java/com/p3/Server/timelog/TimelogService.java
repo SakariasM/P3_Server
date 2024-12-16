@@ -1,9 +1,9 @@
 package com.p3.Server.timelog;
 
+import com.p3.Server.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -94,7 +94,6 @@ public class TimelogService {
     public Timelog getLastCheckOutEvent(int userId) {
         Timelog timelog = timelogRepository.findLastCheckOutEvent(userId, "check_out");
         if (timelog == null) {
-            System.out.println("TimelogRepository returned null for userId: " + userId);
             timelog = new Timelog();
             timelog.setUser_id(userId);
             timelog.setShift_date(LocalDate.now());
@@ -130,8 +129,11 @@ public class TimelogService {
         return timelogRepository.findByIdAndDay(userId, date);
     }
 
-    public void postTimelogs(List<Timelog> timelogs) {
-        System.out.println(timelogs);
+    public void putTimelogs(List<Timelog> timelogs) {
         timelogRepository.saveAll(timelogs);
+    }
+
+    public List<Timelog> getTimelogsByPeriod(LocalDate startDate, LocalDate endDate) {
+        return timelogRepository.findByDatePeriod(startDate, endDate);
     }
 }

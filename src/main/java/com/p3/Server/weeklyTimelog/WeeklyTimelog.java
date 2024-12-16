@@ -13,7 +13,7 @@ public class WeeklyTimelog {
     private int userId;
     private String full_name;
     private LocalDate weekStart;
-    private String totalHoursWorked;     // I databasen bruger vi bare time til totalhoursworked, så skal vi også bruge det til timelog event_time?
+    private String totalHoursWorked;
 
 
     public WeeklyTimelog() {

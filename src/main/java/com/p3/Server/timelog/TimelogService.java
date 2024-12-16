@@ -1,5 +1,6 @@
 package com.p3.Server.timelog;
 
+import com.p3.Server.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

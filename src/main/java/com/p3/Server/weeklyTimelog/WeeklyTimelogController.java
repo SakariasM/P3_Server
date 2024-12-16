@@ -28,19 +28,4 @@ public class WeeklyTimelogController {
         return weeklyTimelogService.getWeeklyTimelogById(id);
     }
 
-    @PostMapping
-    public WeeklyTimelog addNewWeeklyTimelog(@RequestBody WeeklyTimelog weeklyTimelog) {
-        return weeklyTimelogService.addNewWeeklyTimelog(weeklyTimelog);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteWeeklyTimelog(@PathVariable int id) {
-        weeklyTimelogService.deleteWeeklyTimelog(id);
-    }
-
-    @PutMapping("/{id}")
-    public WeeklyTimelog updateWeeklyTimelog(@PathVariable int id, @RequestBody WeeklyTimelog updatedWeeklyTimelog) {
-        return weeklyTimelogService.updateWeeklyTimelog(id, updatedWeeklyTimelog);
-    }
-
 }

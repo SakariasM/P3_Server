@@ -1,6 +1,8 @@
 package com.p3.Server.timelog;
 
+import com.p3.Server.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,12 @@ import java.util.List;
 public class TimelogController {
 
     private final TimelogService timelogService;
+    private final UserService userService;
 
     @Autowired
-    public TimelogController(TimelogService timelogService) {this.timelogService = timelogService;}
+    public TimelogController(TimelogService timelogService, UserService userService) {this.timelogService = timelogService;
+        this.userService = userService;
+    }
 
     /*
      * GET
@@ -57,14 +62,34 @@ public class TimelogController {
     }
 
     // Gets all timelogs within a specific period and returns as a downloadable csv file
-    @GetMapping(value = "/download-csv", produces = "text/csv")
+    @GetMapping(value = "/downloadCSV", produces = "text/csv")
     public ResponseEntity<Resource> getCSV(@RequestParam LocalDate startDate,
                                            @RequestParam LocalDate endDate) {
+        // Fetch timelogs for the specified period
         List<Timelog> timelogs = timelogService.getTimelogsByPeriod(startDate, endDate);
 
-        System.out.println(timelogs);
+        // Check if the list is empty
+        if (timelogs.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
 
-        return null;
+        // Build the csv TODO Fix så de får hver deres colums + maybe user navn
+        StringBuilder csvContent = new StringBuilder("ID,User ID,Shift Date,Event Type,Event Time\n");
+        for (Timelog timelog : timelogs) {
+            csvContent.append(timelog.getLog_id()).append(",")
+                    .append(timelog.getUser_id()).append(",")
+                    .append(timelog.getShift_date()).append(",")
+                    .append(timelog.getEvent_type()).append(",")
+                    .append(timelog.getEvent_time()).append("\n");
+        }
+
+        // Convert csv
+        ByteArrayResource resource = new ByteArrayResource(csvContent.toString().getBytes());
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=timelogs.csv")
+                .contentType(org.springframework.http.MediaType.parseMediaType("text/csv"))
+                .body(resource);
     }
 
     /*

@@ -25,26 +25,20 @@ public class WeeklyTimelogService {
         return weeklyTimelogRepository.findById(id);
     }
 
-    public WeeklyTimelog addNewWeeklyTimelog(WeeklyTimelog weeklyTimelog) {
-        return weeklyTimelogRepository.save(weeklyTimelog);
-    }
+    public void updateWeeklyTimelog(WeeklyTimelog updatedWeeklyTimelog) {
+        Optional<WeeklyTimelog> weeklyTimelogOptional = weeklyTimelogRepository
+                .findWeeklyTimelogByWeekStartAndUserId(
+                        updatedWeeklyTimelog.getWeekStart(),
+                        updatedWeeklyTimelog.getUserId()
+                );
 
-    public void deleteWeeklyTimelog(int id) {
-        if (!weeklyTimelogRepository.existsById(id)) {
-            throw new IllegalStateException("Weekly timelog with ID " + id + " does not exist.");
+        if (weeklyTimelogOptional.isPresent()) {
+            WeeklyTimelog weeklyTimelog = weeklyTimelogOptional.get();
+            weeklyTimelog.setTotalHoursWorked(updatedWeeklyTimelog.getTotalHoursWorked());
+            weeklyTimelogRepository.save(weeklyTimelog);
+        } else {
+            weeklyTimelogRepository.save(updatedWeeklyTimelog);
         }
-        weeklyTimelogRepository.deleteById(id);
-    }
-
-    public WeeklyTimelog updateWeeklyTimelog(int id, WeeklyTimelog updatedWeeklyTimelog) {
-        return weeklyTimelogRepository.findById(id)
-                .map(existingLog -> {
-                    existingLog.setUserId(updatedWeeklyTimelog.getUserId());
-                    existingLog.setWeekStart(updatedWeeklyTimelog.getWeekStart());
-                    existingLog.setTotalHoursWorked(updatedWeeklyTimelog.getTotalHoursWorked());
-                    return weeklyTimelogRepository.save(existingLog);
-                })
-                .orElseThrow(() -> new IllegalStateException("Weekly timelog with ID " + id + " does not exist."));
     }
 
 

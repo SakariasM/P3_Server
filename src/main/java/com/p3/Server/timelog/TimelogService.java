@@ -136,4 +136,12 @@ public class TimelogService {
     public List<Timelog> getTimelogsByPeriod(LocalDate startDate, LocalDate endDate) {
         return timelogRepository.findByDatePeriod(startDate, endDate);
     }
+
+    // ONLY USED BT THE DAILY RESET, DELETES TIMELOGS FROM 5 YEARS BACK AS TO FOLLOW REGULATIONS
+    public void deleteExpiredTimelogs() {
+        LocalDate date = LocalDate.now().plusYears(-5);
+        List<Timelog> timelogs = timelogRepository.findByEvent_time(date);
+        System.out.println(timelogs);
+        timelogRepository.deleteAll(timelogs);
+    }
 }

@@ -93,12 +93,14 @@ public class TimelogController {
         }
 
         // Build the csv
-        StringBuilder csvContent = new StringBuilder("\"Navn\";\"Dato\";\"Type\";\"Tidspunkt\"\n");
+        StringBuilder csvContent = new StringBuilder("\"Navn\";\"Dato\";\"Type\";\"Tidspunkt\";\"Redigeret Tidspunkt\";\n");
         for (Timelog timelog : timelogs) {
             csvContent.append("\"").append(usersMap.get(timelog.getUser_id())).append("\";")
                     .append("\"").append(timelog.getShift_date()).append("\";")
                     .append("\"").append(eventTypeMap.get(timelog.getEvent_type())).append("\";")
-                    .append("\"").append(timelog.getEvent_time()).append("\"");
+                    .append("\"").append(timelog.getEvent_time()).append("\";")
+                    .append("\"").append(timelog.getEdited_time() != null ? timelog.getEdited_time() : "").append("\";\n");
+
         }
 
         // Convert csv

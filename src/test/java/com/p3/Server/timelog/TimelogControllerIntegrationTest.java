@@ -202,7 +202,7 @@ public class TimelogControllerIntegrationTest {
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
             String csv = response.getBody();
             assertThat(csv).isNotBlank();
-            assertThat(csv).contains("ID,User ID,Shift Date,Event Type,Event Time");
+            assertThat(csv).contains("\"Navn\";\"Dato\";\"Type\";\"Tidspunkt\";\"Redigeret Tidspunkt\";\n");
         }
     }
 

@@ -1,5 +1,6 @@
 package com.p3.Server.timelog;
 
+import com.p3.Server.user.User;
 import com.p3.Server.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -9,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path="api/timelog")
@@ -68,19 +71,34 @@ public class TimelogController {
         // Fetch timelogs for the specified period
         List<Timelog> timelogs = timelogService.getTimelogsByPeriod(startDate, endDate);
 
+        List<User> users = userService.getUsers();
+        Map<Integer, String> usersMap = new HashMap<>();
+        for(User user : users) {
+            String fullName = user.getFullName();
+            Integer userId = user.getUserId();
+            usersMap.put(userId, fullName);
+        }
+
+        Map<String, String> eventTypeMap = Map.of(
+                "check_in", "Vagt start",
+                "check_out", "Vagt slut",
+                "break_start", "Pause start",
+                "break_end", "Pause slut"
+        );
+
+
         // Check if the list is empty
         if (timelogs.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        // Build the csv TODO Fix så de får hver deres colums + maybe user navn
-        StringBuilder csvContent = new StringBuilder("ID,User ID,Shift Date,Event Type,Event Time\n");
+        // Build the csv
+        StringBuilder csvContent = new StringBuilder("\"Navn\";\"Dato\";\"Type\";\"Tidspunkt\"\n");
         for (Timelog timelog : timelogs) {
-            csvContent.append(timelog.getLog_id()).append(",")
-                    .append(timelog.getUser_id()).append(",")
-                    .append(timelog.getShift_date()).append(",")
-                    .append(timelog.getEvent_type()).append(",")
-                    .append(timelog.getEvent_time()).append("\n");
+            csvContent.append("\"").append(usersMap.get(timelog.getUser_id())).append("\";")
+                    .append("\"").append(timelog.getShift_date()).append("\";")
+                    .append("\"").append(eventTypeMap.get(timelog.getEvent_type())).append("\";")
+                    .append("\"").append(timelog.getEvent_time()).append("\"");
         }
 
         // Convert csv

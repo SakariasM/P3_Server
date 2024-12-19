@@ -19,6 +19,9 @@ public interface TimelogRepository extends JpaRepository<Timelog, Integer> {
     @Query("SELECT t FROM Timelog t WHERE t.user_id = :user_id AND DATE(t.shift_date) = :shift_date")
     List<Timelog> findByIdAndDay(@Param("user_id") int user_id, @Param("shift_date") LocalDate shift_date);
 
+    @Query("SELECT t FROM Timelog t WHERE t.shift_date = :dateTime")
+    List<Timelog> findByEvent_time(LocalDate dateTime);
+
 
     // Find check-in events for today's date without a corresponding check-out event
     @Query("""

@@ -36,6 +36,7 @@ public class ScheduledReset {
     public void handleDailyReset() {
         System.out.println("Running daily reset for incomplete timelogs...");
         timelogService.checkAndHandleIncompleteTimelogs();
+        timelogService.deleteExpiredTimelogs();
         userService.checkAndHandleIncompleteClockedIns();
         updateWeeklyTimelog();
     }
